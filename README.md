@@ -9,3 +9,10 @@ Web-Testversion von MOBMOBBS (GitHub Pages): **https://eddyeasy88.github.io/mobm
 - Stand: Quellrepository `Mobmobbs` auf `ae052b3` plus nicht committete Prototyp-Änderungen vom 11.11.2026
   (zweiter Stand: Teamauswahl ohne Scrollen, verständlichere Kampfdarstellung, langsames Starttempo, Hinweise)
   (Webbuild identisch mit dem geprüften Build).
+
+## Schatzsuche – Die Kristallruinen (Prototyp, 11.11.2026)
+
+Ordner `schatzsuche/`: spielbarer Prototyp des Kugellabyrinths mit Neigungssteuerung.
+Link: https://eddyeasy88.github.io/mobmobbs-play/schatzsuche/
+Gebaut aus dem lokalen Arbeitsstand des Hauptrepositorys (dort noch nicht committet). Die Dateien im Stammverzeichnis
+(bisherige Web-Testversion) sind unverändert.
