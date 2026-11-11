@@ -7,4 +7,5 @@ Web-Testversion von MOBMOBBS (GitHub Pages): **https://eddyeasy88.github.io/mobm
 - Enthält nur fertige Build-Dateien (Godot 4.4.1, Webexport ohne Threads); der Quellcode liegt im privaten
   Repository `Mobmobbs`.
 - Stand: Quellrepository `Mobmobbs` auf `ae052b3` plus nicht committete Prototyp-Änderungen vom 11.11.2026
+  (zweiter Stand: Teamauswahl ohne Scrollen, verständlichere Kampfdarstellung, langsames Starttempo, Hinweise)
   (Webbuild identisch mit dem geprüften Build).
