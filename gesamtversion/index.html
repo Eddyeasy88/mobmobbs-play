@@ -47,7 +47,10 @@ html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); o
 #state { font: 700 14px/1.2 "Nunito", system-ui, sans-serif; color: var(--dim); font-variant-numeric: tabular-nums }
 #tip { min-height: 2.8em; max-width: 34ch; text-align: center; font: 600 16px/1.4 "Nunito", system-ui, sans-serif; color: #e9ecff; transition: opacity .35s }
 #tip b { color: var(--turq); font-weight: 800 }
-#note { color: #ffb3a8; font: 700 15px/1.4 system-ui, sans-serif; max-width: 34ch; text-align: center }
+#note { color: #ffd2cb; font: 700 15px/1.4 system-ui, sans-serif; max-width: 34ch; text-align: center }
+#loader.problem #cast, #loader.problem #tip, #loader.problem .crystal { display: none }
+#loader.problem #note { background: rgba(11,14,38,.92); border: 1.5px solid rgba(255,194,74,.55); border-radius: 18px; padding: 16px 18px; max-height: 60vh; overflow: auto }
+#loader.problem #note b { display: block; color: #ffc24a; font-size: 17px }
 @media (prefers-reduced-motion: reduce) { .mote, #cast img, .crystal, #fill::after, #tree .root { animation: none } }
 </style>
 <canvas id="canvas" tabindex="0">Dein Browser unterstützt kein WebGL 2.</canvas>
@@ -120,8 +123,11 @@ html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); o
     const url = typeof input === 'string' ? input : (input && input.url) || '';
     for (const k in map) {
       if (url.split('?')[0].endsWith(k)) {
-        return realFetch(map[k][0]).then(function (r) {
-          if (!r.ok) throw new Error('Datei fehlt: ' + map[k][0]);
+        // ?v=<Build>: jede Veröffentlichung hat eigene Adressen, damit Safari nie alte (oder halb geladene)
+        // Spieldateien aus dem Zwischenspeicher mit einer neuen Seite mischt.
+        startLog('Lade ' + map[k][0]);
+        return realFetch(map[k][0] + '?v=df389fce65', { cache: 'no-cache' }).then(function (r) {
+          if (!r.ok) throw new Error('Datei fehlt: ' + map[k][0] + ' (HTTP ' + r.status + ')');
           return new Response(r.body.pipeThrough(new DecompressionStream('gzip')), { status: 200, headers: { 'Content-Type': map[k][1] } });
         });
       }
@@ -130,10 +136,95 @@ html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); o
   };
 })();
 </script>
-<script src="tilt_bridge.js"></script>
-<script src="index.js"></script>
 <script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":9156432,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
+// ---------------- Startprotokoll und Absicherung des Spielstand-Speichers ----------------
+// Ursache des Start-Hängers (iPhone-Test 12.11.2026): Godot öffnet beim Start die IndexedDB des Browsers (dort liegt
+// user://, also der Spielstand) und wartet ohne Zeitlimit auf die Antwort. iOS-Safari beantwortet diese Anfrage nach
+// dem Zurückkehren aus dem Hintergrund manchmal nie (bekannter WebKit-Fehler: Verbindung zum IndexedDB-Server verloren)
+// – der Ladebildschirm blieb dann für immer bei „Die Insel erwacht …“ stehen.
+// Abhilfe: Jede Öffnungsanfrage bekommt ein Zeitlimit und wird mehrfach neu gestellt; antwortet der Speicher gar nicht,
+// startet das Spiel NICHT ohne Spielstand (sonst sähe es so aus, als wäre er weg), sondern zeigt einen Hinweis mit
+// „Neu laden“. Der gespeicherte Stand wird dabei nie verändert oder gelöscht.
+window.__startLog = [];
+window.startLog = function (msg) {
+  const t = (performance.now() / 1000).toFixed(1);
+  window.__startLog.push(t + ' s  ' + msg);
+  console.log('[Start] ' + msg);
+};
+startLog('Seite geladen (' + navigator.userAgent.replace(/^.*?\(([^)]*)\).*$/, '$1') + ')');
+window.showStartProblem = function (title, text) {
+  document.getElementById('loader').classList.add('problem');
+  const note = document.getElementById('note');
+  note.hidden = false;
+  note.innerHTML = '';
+  const b = document.createElement('b'); b.textContent = title; note.appendChild(b);
+  const p = document.createElement('div'); p.textContent = text; p.style.marginTop = '6px'; note.appendChild(p);
+  const btn = document.createElement('button'); btn.textContent = 'Neu laden';
+  btn.style.cssText = 'margin-top:12px;font:800 17px "Nunito",system-ui,sans-serif;padding:12px 26px;border:0;border-radius:14px;background:#ffc24a;color:#3a1d00';
+  btn.onclick = function () { location.reload(); };
+  note.appendChild(btn);
+  const log = document.createElement('details'); log.style.cssText = 'margin-top:10px;text-align:left;color:#cfd5ff;font:12px/1.4 ui-monospace,monospace';
+  const sum = document.createElement('summary'); sum.textContent = 'Startprotokoll'; log.appendChild(sum);
+  const pre = document.createElement('pre'); pre.style.whiteSpace = 'pre-wrap'; pre.textContent = window.__startLog.join('\n'); log.appendChild(pre);
+  note.appendChild(log);
+};
+(function () {
+  if (typeof indexedDB === 'undefined') return;
+  const realOpen = indexedDB.open.bind(indexedDB);
+  const TRY_MS = 2500, TRIES = 4;
+  indexedDB.open = function (name, version) {
+    // Stellvertreter-Anfrage: Godot (Emscripten IDBFS) setzt onsuccess/onerror/onupgradeneeded darauf.
+    const fake = { result: undefined, error: null, transaction: null, readyState: 'pending', onsuccess: null, onerror: null, onupgradeneeded: null, onblocked: null };
+    let attempt = 0, done = false, timer = null;
+    function ev(target) { return { target: target, preventDefault: function () {}, stopPropagation: function () {} }; }
+    function tryOpen() {
+      attempt++;
+      const mine = attempt;
+      startLog('Spielstand-Speicher öffnen (' + name + ', Versuch ' + mine + ')');
+      let req;
+      try { req = version === undefined ? realOpen(name) : realOpen(name, version); }
+      catch (e) { done = true; fake.error = e; fake.readyState = 'done'; if (fake.onerror) fake.onerror(ev(fake)); return; }
+      req.onupgradeneeded = function (e) {
+        if (done) return;
+        fake.result = req.result; fake.transaction = req.transaction;
+        startLog('Spielstand-Speicher wird eingerichtet');
+        if (fake.onupgradeneeded) fake.onupgradeneeded(ev(fake));
+      };
+      req.onsuccess = function () {
+        if (done) { try { req.result.close(); } catch (e) {} return; }   // verspätete Antwort eines älteren Versuchs
+        done = true; clearTimeout(timer);
+        fake.result = req.result; fake.readyState = 'done';
+        startLog('Spielstand-Speicher bereit (Versuch ' + mine + ')');
+        if (fake.onsuccess) fake.onsuccess(ev(fake));
+      };
+      req.onerror = function (e) {
+        if (done) return;
+        done = true; clearTimeout(timer);
+        fake.error = req.error; fake.readyState = 'done';
+        startLog('Spielstand-Speicher Fehler: ' + (req.error && req.error.message));
+        if (e && e.preventDefault) e.preventDefault();
+        if (fake.onerror) fake.onerror(ev(fake));
+      };
+      req.onblocked = function () { startLog('Spielstand-Speicher blockiert (anderer Tab?)'); };
+      timer = setTimeout(function () {
+        if (done) return;
+        if (attempt < TRIES) { startLog('Spielstand-Speicher antwortet nicht – neuer Versuch'); tryOpen(); return; }
+        startLog('Spielstand-Speicher antwortet nicht – Start angehalten');
+        window.__storageStuck = true;
+        showStartProblem('Der Speicher deines Browsers antwortet gerade nicht.',
+          'Dein Spielstand ist nicht verloren. Tippe auf „Neu laden“. Hilft das nicht: Safari ganz schließen ' +
+          '(im App-Umschalter nach oben wischen) und die Seite neu öffnen.');
+      }, TRY_MS);
+    }
+    tryOpen();
+    return fake;
+  };
+})();
+</script>
+<script src="tilt_bridge.js?v=df389fce65"></script>
+<script src="index.js?v=df389fce65"></script>
+<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":9157888,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
 const engine = new Engine(GODOT_CONFIG);
 const fill = document.getElementById('fill'), state = document.getElementById('state'), note = document.getElementById('note'), loader = document.getElementById('loader'), bar = document.getElementById('bar');
 const missing = Engine.getMissingFeatures({ threads: false });
@@ -141,18 +232,36 @@ if (typeof DecompressionStream === 'undefined') missing.push('DecompressionStrea
 if (missing.length) {
   note.hidden = false; note.textContent = 'Nicht unterstützt: ' + missing.join(', ');
 } else {
+  let loaded = false, started = false;
+  // Wächter: Hängt der Start nach dem Laden ungewöhnlich lange, Hinweis mit Startprotokoll und „Neu laden“ zeigen
+  // (nichts wird gelöscht). Der Start läuft im Hintergrund weiter; gelingt er noch, verschwindet der Hinweis.
+  const watchdog = setInterval(function () {
+    if (started || window.__storageStuck) { clearInterval(watchdog); return; }
+    if (loaded && performance.now() - loaded > 45000) {
+      clearInterval(watchdog);
+      startLog('Start dauert ungewöhnlich lange');
+      showStartProblem('Der Start dauert ungewöhnlich lange.', 'Dein Spielstand ist nicht verloren. Tippe auf „Neu laden“.');
+    }
+  }, 1000);
+  startLog('Build df389fce65');
   engine.startGame({
     onProgress: function (cur, total) {
       if (total > 0) {
         const p = Math.min(100, Math.round(cur / total * 100));
         fill.style.width = 'calc(' + p + '% - 4px)'; bar.setAttribute('aria-valuenow', p);
         state.textContent = p < 100 ? 'Lädt die Insel … ' + p + ' %' : 'Die Insel erwacht …';
+        if (p >= 100 && !loaded) { loaded = performance.now(); startLog('Spieldateien geladen'); }
       }
     },
   }).then(function () {
+    started = true; startLog('Spiel gestartet');
+    note.hidden = true; loader.classList.remove('problem');
     loader.classList.add('done'); clearInterval(window.__tipTimer);
     setTimeout(function () { loader.remove(); }, 800);
-  }, function (err) { note.hidden = false; note.textContent = 'Start fehlgeschlagen: ' + (err && err.message ? err.message : err); console.error(err); });
+  }, function (err) {
+    startLog('Start fehlgeschlagen: ' + (err && err.message ? err.message : err)); console.error(err);
+    showStartProblem('Start fehlgeschlagen', String(err && err.message ? err.message : err));
+  });
 }
 </script>
 </body></html>
