@@ -1,0 +1,156 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"><link rel="apple-touch-icon" href="loader_grumrok.png"></head><body>
+<title>Mobbmobs – Labyrinth-Test Wurzelprobe</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b0e26">
+<style>
+@font-face { font-family: "Baloo 2"; src: url("baloo2.ttf") format("truetype"); font-display: swap }
+@font-face { font-family: "Nunito"; src: url("nunito.ttf") format("truetype"); font-display: swap }
+:root { --bg: #0b0e26; --fg: #f4f6ff; --dim: rgba(225,230,255,.74); --turq: #2fd4c0; --violet: #8b5cf6; --gold: #ffc24a; color-scheme: dark }
+html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none }
+#canvas { display: block; width: 100%; height: 100%; outline: none }
+
+/* ---------------- Ladeinszenierung ---------------- */
+#loader { position: fixed; inset: 0; z-index: 10; overflow: hidden; font-family: "Nunito", system-ui, -apple-system, sans-serif;
+  background: radial-gradient(120% 70% at 50% 12%, #3b2c86 0%, #1c1a55 42%, #0b0e26 78%); transition: opacity .7s ease }
+#loader.done { opacity: 0; pointer-events: none }
+#sky { position: absolute; inset: 0 }
+.mote { position: absolute; border-radius: 50%; background: radial-gradient(circle, #fffbe0 0%, rgba(255,240,170,.6) 35%, rgba(255,240,170,0) 70%); animation: float linear infinite }
+@keyframes float { from { transform: translateY(0) } to { transform: translateY(-120vh) } }
+#tree { position: absolute; left: 50%; bottom: 20%; width: min(130vw, 720px); transform: translateX(-50%); opacity: .9; filter: drop-shadow(0 0 30px rgba(47,212,192,.25)) }
+#tree .root { animation: rootglow 3.2s ease-in-out infinite }
+@keyframes rootglow { 50% { opacity: .35 } }
+.crystal { z-index: 1; position: absolute; bottom: 22.5%; width: 34px; height: 70px; clip-path: polygon(50% 0, 100% 30%, 82% 100%, 18% 100%, 0 30%);
+  background: linear-gradient(160deg, #e9e2ff 0%, #a98bff 35%, #6b3fe0 70%, #3a2390 100%); filter: drop-shadow(0 0 12px rgba(160,120,255,.85)); animation: pulse 2.8s ease-in-out infinite }
+.crystal.t { background: linear-gradient(160deg, #e6fffb 0%, #7ef0df 35%, #22b8a6 70%, #136a74 100%); filter: drop-shadow(0 0 12px rgba(47,212,192,.85)) }
+@keyframes pulse { 50% { filter: drop-shadow(0 0 22px rgba(190,160,255,1)); transform: translateY(-3px) } }
+#ground { z-index: 0; position: absolute; left: -10%; right: -10%; bottom: 0; height: 24%; background: radial-gradient(60% 90% at 50% 0%, #2b6b5a 0%, #173a45 45%, #0b0e26 100%); border-top-left-radius: 50% 40%; border-top-right-radius: 50% 40% }
+#ground::before { content: ""; position: absolute; left: 20%; right: 20%; top: -6px; height: 14px; border-radius: 50%; background: radial-gradient(closest-side, rgba(126,240,223,.65), rgba(126,240,223,0)) }
+#cast { z-index: 2; position: absolute; left: 0; right: 0; bottom: 19%; display: flex; justify-content: center; align-items: flex-end; gap: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+#cast img { display: block; height: auto; filter: drop-shadow(0 12px 14px rgba(0,0,0,.45)); transform-origin: 50% 100% }
+#cast .moosling { width: 27vw; max-width: 160px; animation: hop 2.2s ease-in-out infinite }
+#cast .grumrok { width: 36vw; max-width: 210px; margin: 0 -3vw; animation: breathe 3.6s ease-in-out infinite }
+#cast .nibbit { width: 25vw; max-width: 150px; animation: wiggle 2.8s ease-in-out infinite }
+#cast .lead { order: 0 }
+@keyframes hop { 0%, 60%, 100% { transform: translateY(0) scale(1, 1) } 70% { transform: translateY(0) scale(1.06, .92) } 80% { transform: translateY(-18px) scale(.96, 1.05) } 90% { transform: translateY(0) scale(1.04, .95) } }
+@keyframes breathe { 50% { transform: scale(1.025, 1.035) } }
+@keyframes wiggle { 0%, 100% { transform: rotate(0) } 20% { transform: rotate(-3deg) } 30% { transform: rotate(2deg) } 40% { transform: rotate(0) } }
+#top { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top, 0px) + 9vh); text-align: center; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+#top h1 { margin: 0; font: 800 clamp(44px, 13vw, 76px)/1 "Baloo 2", system-ui, sans-serif; letter-spacing: .01em;
+  background: linear-gradient(180deg, #fff7d6 0%, #ffd56a 45%, #f0a630 100%); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 4px 0 #7a3c08) drop-shadow(0 10px 18px rgba(0,0,0,.45)) }
+#top p { margin: 6px 0 0; font: 700 15px/1.3 "Nunito", system-ui, sans-serif; color: var(--dim); letter-spacing: .12em; text-transform: uppercase }
+#bottom { position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 3.5vh); display: grid; gap: 12px; justify-items: center; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+#bar { position: relative; width: min(320px, 78vw); height: 16px; border-radius: 10px; background: rgba(8,10,40,.75); box-shadow: inset 0 0 0 1.5px rgba(150,170,255,.35), 0 6px 16px rgba(0,0,0,.35); overflow: hidden }
+#fill { position: absolute; inset: 2px auto 2px 2px; width: 0; border-radius: 8px; background: linear-gradient(90deg, #22b8a6, #7ef0df 55%, #b49bff); box-shadow: 0 0 14px rgba(126,240,223,.8); transition: width .25s ease }
+#fill::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.55) 50%, transparent 70%); animation: shine 1.6s linear infinite }
+@keyframes shine { from { transform: translateX(-100%) } to { transform: translateX(100%) } }
+#state { font: 700 14px/1.2 "Nunito", system-ui, sans-serif; color: var(--dim); font-variant-numeric: tabular-nums }
+#tip { min-height: 2.8em; max-width: 34ch; text-align: center; font: 600 16px/1.4 "Nunito", system-ui, sans-serif; color: #e9ecff; transition: opacity .35s }
+#tip b { color: var(--turq); font-weight: 800 }
+#note { color: #ffb3a8; font: 700 15px/1.4 system-ui, sans-serif; max-width: 34ch; text-align: center }
+@media (prefers-reduced-motion: reduce) { .mote, #cast img, .crystal, #fill::after, #tree .root { animation: none } }
+</style>
+<canvas id="canvas" tabindex="0">Dein Browser unterstützt kein WebGL 2.</canvas>
+<div id="loader" role="status" aria-live="polite">
+  <div id="sky"></div>
+  <svg id="tree" viewBox="0 0 400 300" aria-hidden="true">
+    <defs><linearGradient id="tk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a2d6e"/><stop offset="1" stop-color="#26174a"/></linearGradient></defs>
+    <g fill="#30318a" opacity=".95"><circle cx="200" cy="80" r="78"/><circle cx="120" cy="105" r="58"/><circle cx="282" cy="102" r="60"/><circle cx="160" cy="48" r="46"/><circle cx="246" cy="46" r="48"/></g>
+    <g fill="#ffe28a"><circle cx="150" cy="90" r="3.2"/><circle cx="230" cy="70" r="2.6"/><circle cx="270" cy="118" r="3"/><circle cx="196" cy="40" r="2.4"/><circle cx="118" cy="120" r="2.4"/></g>
+    <path d="M182 135 C176 190 168 240 140 300 L260 300 C232 240 222 190 218 135 Z" fill="url(#tk)"/>
+    <g class="root" fill="none" stroke="#2fd4c0" stroke-width="4" stroke-linecap="round" opacity="1"><path d="M190 230 C175 262 150 280 112 296"/><path d="M212 228 C226 262 252 282 292 296"/><path d="M200 250 C200 270 198 286 196 300"/></g>
+  </svg>
+  <div class="crystal" style="left:12%"></div><div class="crystal t" style="left:17%; height:46px; width:24px"></div>
+  <div class="crystal t" style="right:13%; height:58px"></div><div class="crystal" style="right:19%; height:40px; width:22px"></div>
+  <div id="ground"></div>
+  <div id="cast">
+    <img class="moosling" src="loader_moosling.png" alt="">
+    <img class="grumrok" src="loader_grumrok.png" alt="">
+    <img class="nibbit" src="loader_nibbit.png" alt="">
+  </div>
+  <div id="top"><h1>Mobbmobs</h1><p id="sub">Labyrinth-Test · Die Wurzelprobe</p></div>
+  <div id="bottom">
+    <div id="tip"></div>
+    <div id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="fill"></div></div>
+    <div id="state">Lädt …</div>
+    <div id="note" hidden></div>
+  </div>
+</div>
+<script>
+// Ladeinszenierung: echte Fortschrittsanzeige (onProgress der Engine), keine künstliche Wartezeit.
+(function () {
+  const sky = document.getElementById('sky');
+  for (let i = 0; i < 26; i++) {
+    const m = document.createElement('span'); m.className = 'mote';
+    const s = 3 + Math.random() * 6; m.style.width = m.style.height = s + 'px';
+    m.style.left = (Math.random() * 100) + '%'; m.style.top = (60 + Math.random() * 60) + '%';
+    m.style.animationDuration = (9 + Math.random() * 12) + 's'; m.style.animationDelay = (-Math.random() * 20) + 's';
+    m.style.opacity = .35 + Math.random() * .5; sky.appendChild(m);
+  }
+  // Aktiver Begleiter (vom Spiel gespiegelt) steht in der Mitte und wird begrüßt.
+  let comp = null;
+  try { comp = JSON.parse(localStorage.getItem('mobbmobs_companion') || 'null'); } catch (e) {}
+  const NAMES = { moosling: 'Moosling', grumrok: 'Grumrok', nibbit: 'Nibbit' };
+  if (comp && NAMES[comp.species]) {
+    const cast = document.getElementById('cast'), lead = cast.querySelector('.' + comp.species);
+    const imgs = Array.from(cast.children).filter(x => x !== lead);
+    cast.innerHTML = ''; cast.append(imgs[0], lead, imgs[1]); lead.style.zIndex = 2;
+    
+  }
+  const TIPS = [
+    'Im Labyrinth steuerst du nur durch <b>Neigen</b> des iPhones.',
+    'Pro Durchgang begleitet dich <b>genau ein</b> Mobbmob.',
+    'Jeder Mobbmob kommt ans Ziel – aber jeder <b>entdeckt etwas anderes</b>.',
+    'Rissige Wände, lockere Erde, flimmernde Abgründe: <b>Wer passt wozu?</b>',
+    'Was ein Mobbmob kann, kommt aus seinem <b>Körper</b> – wie er es tut, aus seiner <b>Persönlichkeit</b>.'
+  ];
+  const tip = document.getElementById('tip'); let ti = Math.floor(Math.random() * TIPS.length);
+  function nextTip() { tip.style.opacity = 0; setTimeout(() => { tip.innerHTML = TIPS[ti++ % TIPS.length]; tip.style.opacity = 1; }, 350); }
+  nextTip(); window.__tipTimer = setInterval(nextTip, 4200);
+})();
+</script>
+<script>
+// Godot fordert index.wasm und index.pck an; ausgeliefert werden komprimierte Fassungen.
+(function () {
+  const realFetch = window.fetch.bind(window);
+  const map = { 'index.wasm': ['engine.gz.wasm', 'application/wasm'], 'index.pck': ['data.gz.wasm', 'application/octet-stream'] };
+  window.fetch = function (input, init) {
+    const url = typeof input === 'string' ? input : (input && input.url) || '';
+    for (const k in map) {
+      if (url.split('?')[0].endsWith(k)) {
+        return realFetch(map[k][0]).then(function (r) {
+          if (!r.ok) throw new Error('Datei fehlt: ' + map[k][0]);
+          return new Response(r.body.pipeThrough(new DecompressionStream('gzip')), { status: 200, headers: { 'Content-Type': map[k][1] } });
+        });
+      }
+    }
+    return realFetch(input, init);
+  };
+})();
+</script>
+<script src="tilt_bridge.js"></script>
+<script src="index.js"></script>
+<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":8214672,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
+const engine = new Engine(GODOT_CONFIG);
+const fill = document.getElementById('fill'), state = document.getElementById('state'), note = document.getElementById('note'), loader = document.getElementById('loader'), bar = document.getElementById('bar');
+const missing = Engine.getMissingFeatures({ threads: false });
+if (typeof DecompressionStream === 'undefined') missing.push('DecompressionStream (iOS 16.4 oder neuer)');
+if (missing.length) {
+  note.hidden = false; note.textContent = 'Nicht unterstützt: ' + missing.join(', ');
+} else {
+  engine.startGame({
+    onProgress: function (cur, total) {
+      if (total > 0) {
+        const p = Math.min(100, Math.round(cur / total * 100));
+        fill.style.width = 'calc(' + p + '% - 4px)'; bar.setAttribute('aria-valuenow', p);
+        state.textContent = p < 100 ? 'Lädt die Insel … ' + p + ' %' : 'Die Insel erwacht …';
+      }
+    },
+  }).then(function () {
+    loader.classList.add('done'); clearInterval(window.__tipTimer);
+    setTimeout(function () { loader.remove(); }, 800);
+  }, function (err) { note.hidden = false; note.textContent = 'Start fehlgeschlagen: ' + (err && err.message ? err.message : err); console.error(err); });
+}
+</script>
+</body></html>
