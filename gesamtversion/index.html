@@ -126,7 +126,7 @@ html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); o
         // ?v=<Build>: jede Veröffentlichung hat eigene Adressen, damit Safari nie alte (oder halb geladene)
         // Spieldateien aus dem Zwischenspeicher mit einer neuen Seite mischt.
         startLog('Lade ' + map[k][0]);
-        return realFetch(map[k][0] + '?v=3b6be6e10b', { cache: 'no-cache' }).then(function (r) {
+        return realFetch(map[k][0] + '?v=72eb68a9eb', { cache: 'no-cache' }).then(function (r) {
           if (!r.ok) throw new Error('Datei fehlt: ' + map[k][0] + ' (HTTP ' + r.status + ')');
           return new Response(r.body.pipeThrough(new DecompressionStream('gzip')), { status: 200, headers: { 'Content-Type': map[k][1] } });
         });
@@ -221,10 +221,10 @@ window.showStartProblem = function (title, text) {
   };
 })();
 </script>
-<script src="tilt_bridge.js?v=3b6be6e10b"></script>
-<script src="index.js?v=3b6be6e10b"></script>
+<script src="tilt_bridge.js?v=72eb68a9eb"></script>
+<script src="index.js?v=72eb68a9eb"></script>
 <script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":9242624,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":9247248,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
 const engine = new Engine(GODOT_CONFIG);
 const fill = document.getElementById('fill'), state = document.getElementById('state'), note = document.getElementById('note'), loader = document.getElementById('loader'), bar = document.getElementById('bar');
 const missing = Engine.getMissingFeatures({ threads: false });
@@ -243,7 +243,7 @@ if (missing.length) {
       showStartProblem('Der Start dauert ungewöhnlich lange.', 'Dein Spielstand ist nicht verloren. Tippe auf „Neu laden“.');
     }
   }, 1000);
-  startLog('Build 3b6be6e10b');
+  startLog('Build 72eb68a9eb');
   engine.startGame({
     onProgress: function (cur, total) {
       if (total > 0) {
