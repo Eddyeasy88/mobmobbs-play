@@ -1,0 +1,110 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"></head><body>
+<title>Mobbmobs – Arcade-Prototyp v2 (isolierte Testversion)</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b0e26">
+<script>
+// ---------------- Arcade-Prototyp v2: Speicher-Sperre (Isolation I2) ----------------
+// Alle Testversionen unter eddyeasy88.github.io teilen sich den Browser-Speicher (IndexedDB = Spielstände,
+// localStorage = Begleiter der Ladeseite). Diese Seite sperrt jeden Zugriff darauf, BEVOR irgendein anderes Skript läuft:
+// Lesen, Schreiben, Öffnen und Löschen werden abgefangen, gezählt und NICHT ausgeführt. Die Engine startet zusätzlich
+// ohne dauerhaften Speicher (persistentPaths: []), user:// liegt nur im Arbeitsspeicher und ist nach dem Schließen weg.
+// Der Zähler steht in der Messanzeige des Spiels („Speicherzugriffe“) und muss 0 bleiben.
+window.__arcadeStorage = { total: 0, log: [] };
+(function () {
+  function note(kind) {
+    window.__arcadeStorage.total++;
+    if (window.__arcadeStorage.log.length < 50) window.__arcadeStorage.log.push(kind);
+    console.warn('[Arcade-Prototyp] Speicherzugriff blockiert: ' + kind);
+  }
+  function fakeStorage(label) {
+    return {
+      getItem: function (k) { note(label + '.getItem ' + k); return null; },
+      setItem: function (k) { note(label + '.setItem ' + k); },
+      removeItem: function (k) { note(label + '.removeItem ' + k); },
+      clear: function () { note(label + '.clear'); },
+      key: function () { note(label + '.key'); return null; },
+      get length() { note(label + '.length'); return 0; }
+    };
+  }
+  try { Object.defineProperty(window, 'localStorage', { configurable: true, get: function () { return fakeStorage('localStorage'); } }); } catch (e) {}
+  try { Object.defineProperty(window, 'sessionStorage', { configurable: true, get: function () { return fakeStorage('sessionStorage'); } }); } catch (e) {}
+  var fakeIDB = {
+    open: function (name) { note('indexedDB.open ' + name); throw new Error('Arcade-Prototyp: kein Browser-Speicher'); },
+    deleteDatabase: function (name) { note('indexedDB.deleteDatabase ' + name); throw new Error('Arcade-Prototyp: kein Browser-Speicher'); },
+    databases: function () { note('indexedDB.databases'); return Promise.resolve([]); },
+    cmp: function (a, b) { return a < b ? -1 : a > b ? 1 : 0; }
+  };
+  try { Object.defineProperty(window, 'indexedDB', { configurable: true, get: function () { return fakeIDB; } }); } catch (e) {}
+  try { if (navigator.storage) Object.defineProperty(navigator, 'storage', { configurable: true, get: function () { note('navigator.storage'); return undefined; } }); } catch (e) {}
+  try { Object.defineProperty(document, 'cookie', { configurable: true, get: function () { note('document.cookie lesen'); return ''; }, set: function () { note('document.cookie schreiben'); } }); } catch (e) {}
+  try { if (window.caches) Object.defineProperty(window, 'caches', { configurable: true, get: function () { note('caches'); return undefined; } }); } catch (e) {}
+})();
+</script>
+<style>
+html, body { height: 100%; margin: 0; background: #0b0e26; color: #f4f6ff; overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none }
+#canvas { display: block; width: 100%; height: 100%; outline: none }
+#loader { position: fixed; inset: 0; z-index: 10; display: grid; place-content: center; gap: 14px; text-align: center; font: 600 16px/1.4 system-ui, -apple-system, sans-serif;
+  background: radial-gradient(120% 70% at 50% 12%, #2a2370 0%, #151442 45%, #0b0e26 80%); transition: opacity .6s ease; padding: 24px }
+#loader.done { opacity: 0; pointer-events: none }
+#loader h1 { margin: 0; font: 800 36px/1.1 system-ui, sans-serif; color: #ffd56a }
+#loader p { margin: 0; color: rgba(225,230,255,.74); max-width: 34ch }
+#bar { width: min(300px, 76vw); height: 12px; border-radius: 8px; background: rgba(8,10,40,.8); box-shadow: inset 0 0 0 1.5px rgba(150,170,255,.35); overflow: hidden; margin: 0 auto }
+#fill { height: 100%; width: 0; background: linear-gradient(90deg, #22b8a6, #7ef0df 55%, #b49bff); transition: width .25s ease }
+#note { color: #ffd2cb; max-width: 34ch }
+</style>
+<canvas id="canvas" tabindex="0">Dein Browser unterstützt kein WebGL 2.</canvas>
+<div id="loader" role="status" aria-live="polite">
+  <h1>Arcade-Prototyp v2</h1>
+  <p>Isolierte Testversion · speichert nichts · berührt keine Spielstände anderer Testversionen</p>
+  <div id="bar"><div id="fill"></div></div>
+  <p id="state">Lädt …</p>
+  <p id="note" hidden></p>
+</div>
+<script>
+// Godot fordert index.wasm und index.pck an; ausgeliefert werden komprimierte Fassungen.
+(function () {
+  const realFetch = window.fetch.bind(window);
+  const map = { 'index.wasm': ['engine.gz.wasm', 'application/wasm'], 'index.pck': ['data.gz.wasm', 'application/octet-stream'] };
+  window.fetch = function (input, init) {
+    const url = typeof input === 'string' ? input : (input && input.url) || '';
+    for (const k in map) {
+      if (url.split('?')[0].endsWith(k)) {
+        return realFetch(map[k][0] + '?v=7b1bae0e09', { cache: 'no-cache' }).then(function (r) {
+          if (!r.ok) throw new Error('Datei fehlt: ' + map[k][0] + ' (HTTP ' + r.status + ')');
+          return new Response(r.body.pipeThrough(new DecompressionStream('gzip')), { status: 200, headers: { 'Content-Type': map[k][1] } });
+        });
+      }
+    }
+    return realFetch(input, init);
+  };
+})();
+</script>
+<script src="tilt_bridge.js?v=7b1bae0e09"></script>
+<script src="index.js?v=7b1bae0e09"></script>
+<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":9398784,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[],"persistentPaths":[],"persistentDrops":false};
+const engine = new Engine(GODOT_CONFIG);
+const fill = document.getElementById('fill'), state = document.getElementById('state'), note = document.getElementById('note'), loader = document.getElementById('loader');
+const missing = Engine.getMissingFeatures({ threads: false });
+if (typeof DecompressionStream === 'undefined') missing.push('DecompressionStream (iOS 16.4 oder neuer)');
+if (missing.length) {
+  note.hidden = false; note.textContent = 'Nicht unterstützt: ' + missing.join(', ');
+} else {
+  engine.startGame({
+    onProgress: function (cur, total) {
+      if (total > 0) {
+        const p = Math.min(100, Math.round(cur / total * 100));
+        fill.style.width = p + '%';
+        state.textContent = p < 100 ? 'Lädt … ' + p + ' %' : 'Startet …';
+      }
+    },
+  }).then(function () {
+    loader.classList.add('done');
+    setTimeout(function () { loader.remove(); }, 700);
+  }, function (err) {
+    console.error(err);
+    note.hidden = false; note.textContent = 'Start fehlgeschlagen: ' + String(err && err.message ? err.message : err);
+  });
+}
+</script>
+</body></html>
