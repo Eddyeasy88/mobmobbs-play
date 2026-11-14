@@ -81,3 +81,10 @@ Gebaut aus Branch `mobbmobs2/welt-prototyp` (`45a95ce`). Alle anderen Ordner unv
 Ordner `mobbmobs2-welt-7/`: Runde 2.1 – Krone unregelmäßiger, Lebensadern schmaler und ruhiger.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-7/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`a6eeea4`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 8 · Lebensadern natürlicher (14.11.2026)
+
+Ordner `mobbmobs2-welt-8/`: Runde 2.2 – feine, unregelmäßig verzweigte Lebensadern in Rinde und Wurzeln
+(Licht nur in der Ader), Bodenadern als feine Stränge, die sich am Wurzelherz sammeln.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-8/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`fce5f62`). Alle anderen Ordner unverändert.
