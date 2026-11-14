@@ -136,3 +136,9 @@ Gebaut aus Branch `mobbmobs2/welt-prototyp` (`b7ae56d`). Alle anderen Ordner unv
 Ordner `mobbmobs2-welt-15/`: Stand Gebiete 3.0 mit Kristall-Korrektur (Schlafzustand) und Messmodus „Gesamt 3.0“.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-15/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`ea2037a`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 16 · Performance-Test-Kit (14.11.2026)
+
+Ordner `mobbmobs2-welt-16/`: Stand Gebiete 3.0 (wie welt-15) mit automatischem Gesamttest.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-16/?gesamttest
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`168862d`). Alle anderen Ordner unverändert.
