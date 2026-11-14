@@ -68,3 +68,10 @@ Ordner `mobbmobs2-welt-5/`: Runde 1D – Kantenglättung aus als neuer Standard 
 live umschaltbar, Messmodi „Abschluss“ und „Requisiten“.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-5/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`cd7ae9b`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 6 · Weltbaum als Herz (14.11.2026)
+
+Ordner `mobbmobs2-welt-6/`: Runde 2 – Lebensadern über Wurzeln und Stamm, Bodenadern zu Wurzelherzen in den
+Lebensräumen, Krone in Schichten, Fortschrittsstufen verändern die Gestalt. Kantenglättung aus, Schatten B.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-6/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`45a95ce`). Alle anderen Ordner unverändert.
