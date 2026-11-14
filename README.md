@@ -142,3 +142,9 @@ Gebaut aus Branch `mobbmobs2/welt-prototyp` (`ea2037a`). Alle anderen Ordner unv
 Ordner `mobbmobs2-welt-16/`: Stand Gebiete 3.0 (wie welt-15) mit automatischem Gesamttest.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-16/?gesamttest
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`168862d`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 17 · Diagnoselauf (14.11.2026)
+
+Ordner `mobbmobs2-welt-17/`: Stand Gebiete 3.0 (unverändert) mit Diagnoselauf im Test-Kit.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-17/?diagnose
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`be468d5`). Alle anderen Ordner unverändert.
