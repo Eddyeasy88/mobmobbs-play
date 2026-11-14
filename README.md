@@ -123,3 +123,10 @@ Ordner `mobbmobs2-welt-13/`: Gebiete 3.5 – Mooswald-Feinschliff: Waldrand, Hoh
 Weltbaum 2.2 und 3.1–3.4 unverändert.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-13/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`62d9ac3`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 14 · Gebiete erwachen, Gebiete 3.0 komplett (14.11.2026)
+
+Ordner `mobbmobs2-welt-14/`: Gebiete 3.6 – Lebensräume schlafen (entsättigt, Nebel, Pflanzen klein) und erwachen
+vom Wurzelherz aus; Vorschau-Schalter je Gebiet. Stand aller Gebiete 3.1–3.6.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-14/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`b7ae56d`). Alle anderen Ordner unverändert.
