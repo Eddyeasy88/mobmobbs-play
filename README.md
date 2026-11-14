@@ -102,3 +102,10 @@ Ordner `mobbmobs2-welt-10/`: Gebiete 3.2 – Kristallgrat als eigene Landschaft:
 Meer, Schlucht, Ruinenbogen, Felsnadeln, Kristalle brechen aus dem Fels. Weltbaum 2.2 unverändert.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-10/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`4556554`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 11 · Nebelwiesen (14.11.2026)
+
+Ordner `mobbmobs2-welt-11/`: Gebiete 3.3 – Hochwiese mit Südklippe, Nebelsenken mit Bodennebel,
+Lauschsteine, Nebelstege über dem Meer. Weltbaum 2.2, Kristallgrat 3.2 unverändert.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-11/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`e693010`). Alle anderen Ordner unverändert.
