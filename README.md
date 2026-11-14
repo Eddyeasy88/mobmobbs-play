@@ -109,3 +109,10 @@ Ordner `mobbmobs2-welt-11/`: Gebiete 3.3 – Hochwiese mit Südklippe, Nebelsenk
 Lauschsteine, Nebelstege über dem Meer. Weltbaum 2.2, Kristallgrat 3.2 unverändert.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-11/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`e693010`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 12 · Wurzelsee und Quellbach (14.11.2026)
+
+Ordner `mobbmobs2-welt-12/`: Gebiete 3.4 – größerer Wurzelsee mit Seeinsel und Trauerweide, Seerosen,
+Uferwurzeln, Quelle zwischen den Wurzeln und Quellbach zum See. Weltbaum 2.2 und 3.1–3.3 unverändert.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-12/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`b84a43e`). Alle anderen Ordner unverändert.
