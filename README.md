@@ -130,3 +130,9 @@ Ordner `mobbmobs2-welt-14/`: Gebiete 3.6 – Lebensräume schlafen (entsättigt,
 vom Wurzelherz aus; Vorschau-Schalter je Gebiet. Stand aller Gebiete 3.1–3.6.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-14/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`b7ae56d`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 15 · Prüfversion Gesamtprüfung Gebiete 3.0 (14.11.2026)
+
+Ordner `mobbmobs2-welt-15/`: Stand Gebiete 3.0 mit Kristall-Korrektur (Schlafzustand) und Messmodus „Gesamt 3.0“.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-15/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`ea2037a`). Alle anderen Ordner unverändert.
