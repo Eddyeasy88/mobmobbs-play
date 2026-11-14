@@ -54,3 +54,10 @@ Ordner `mobbmobs2-welt-3/`: Schattenoptimierung – fünf Schattenvarianten (A V
 und im Messrundgang „Schatten“ vergleichbar. Startet mit Variante E (eingebackene Schatten).
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-3/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`b0e3980`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 4 · Rendering (14.11.2026)
+
+Ordner `mobbmobs2-welt-4/`: neues Messverfahren (Analyse/Gesamt, verschachtelt mit Kalibrierpunkt),
+Einzeloptimierungen live umschaltbar. Welt unverändert, Schatten B.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-4/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`4f2deb9`). Alle anderen Ordner unverändert.
