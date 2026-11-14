@@ -95,3 +95,10 @@ Ordner `mobbmobs2-welt-9/`: Gebietsgerüst – sechs Bereiche mit organischen Ü
 (Moos → Fels) und Süd-Ost-Terrassen, Uferwiese am Wurzelsee. Weltbaum 2.2 unverändert.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-9/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`e4f6870`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 10 · Kristallgrat (14.11.2026)
+
+Ordner `mobbmobs2-welt-10/`: Gebiete 3.2 – Kristallgrat als eigene Landschaft: Höhenrücken mit Steilwand zum
+Meer, Schlucht, Ruinenbogen, Felsnadeln, Kristalle brechen aus dem Fels. Weltbaum 2.2 unverändert.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-10/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`4556554`). Alle anderen Ordner unverändert.
