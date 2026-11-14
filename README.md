@@ -47,3 +47,10 @@ Ordner `mobbmobs2-welt-2/`: Festigungsphase Runde 1 – Messrundgang (Knopf „M
 verbesserte Kamera-/Touch-Steuerung. Welt gestalterisch unverändert gegenüber `mobbmobs2-welt-1/`.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-2/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`c6a303d`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 3 · Schatten (14.11.2026)
+
+Ordner `mobbmobs2-welt-3/`: Schattenoptimierung – fünf Schattenvarianten (A Voll … E Gebacken) live umschaltbar
+und im Messrundgang „Schatten“ vergleichbar. Startet mit Variante E (eingebackene Schatten).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-3/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`b0e3980`). Alle anderen Ordner unverändert.
