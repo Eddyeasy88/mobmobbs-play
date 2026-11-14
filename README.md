@@ -40,3 +40,10 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-1/
 - Gebaut aus Branch `mobbmobs2/welt-prototyp` (`077c389`) des Hauptrepositorys. V1 und alle anderen Ordner unverändert.
 - Fortschrittsstufen sind zum Vergleich umschaltbar (nur Darstellung). Knopf „V1-Insel“ zeigt die bisherige Heimat.
 - FPS-Anzeige oben rechts für den iPhone-Leistungstest.
+
+## Mobbmobs 2 – Weltprototyp 2 · Messung (14.11.2026)
+
+Ordner `mobbmobs2-welt-2/`: Festigungsphase Runde 1 – Messrundgang (Knopf „Messen“), leichtere Oberfläche,
+verbesserte Kamera-/Touch-Steuerung. Welt gestalterisch unverändert gegenüber `mobbmobs2-welt-1/`.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-2/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`c6a303d`). Alle anderen Ordner unverändert.
