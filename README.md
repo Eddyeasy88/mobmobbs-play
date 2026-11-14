@@ -116,3 +116,10 @@ Ordner `mobbmobs2-welt-12/`: Gebiete 3.4 – größerer Wurzelsee mit Seeinsel u
 Uferwurzeln, Quelle zwischen den Wurzeln und Quellbach zum See. Weltbaum 2.2 und 3.1–3.3 unverändert.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-12/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`b84a43e`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 13 · Mooswald (14.11.2026)
+
+Ordner `mobbmobs2-welt-13/`: Gebiete 3.5 – Mooswald-Feinschliff: Waldrand, Hohlweg, Moosgrube, Leuchtpilzring.
+Weltbaum 2.2 und 3.1–3.4 unverändert.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-13/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`62d9ac3`). Alle anderen Ordner unverändert.
