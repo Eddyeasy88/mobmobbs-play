@@ -75,3 +75,9 @@ Ordner `mobbmobs2-welt-6/`: Runde 2 – Lebensadern über Wurzeln und Stamm, Bod
 Lebensräumen, Krone in Schichten, Fortschrittsstufen verändern die Gestalt. Kantenglättung aus, Schatten B.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-6/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`45a95ce`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 7 · Feinschliff Weltbaum (14.11.2026)
+
+Ordner `mobbmobs2-welt-7/`: Runde 2.1 – Krone unregelmäßiger, Lebensadern schmaler und ruhiger.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-7/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`a6eeea4`). Alle anderen Ordner unverändert.
