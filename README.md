@@ -61,3 +61,10 @@ Ordner `mobbmobs2-welt-4/`: neues Messverfahren (Analyse/Gesamt, verschachtelt m
 Einzeloptimierungen live umschaltbar. Welt unverändert, Schatten B.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-4/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`4f2deb9`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 5 · Kantenglättung aus (14.11.2026)
+
+Ordner `mobbmobs2-welt-5/`: Runde 1D – Kantenglättung aus als neuer Standard (Schatten B), Render-Einstellungen
+live umschaltbar, Messmodi „Abschluss“ und „Requisiten“.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-5/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`cd7ae9b`). Alle anderen Ordner unverändert.
