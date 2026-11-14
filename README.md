@@ -88,3 +88,10 @@ Ordner `mobbmobs2-welt-8/`: Runde 2.2 – feine, unregelmäßig verzweigte Leben
 (Licht nur in der Ader), Bodenadern als feine Stränge, die sich am Wurzelherz sammeln.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-8/
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`fce5f62`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 9 · Gebiete 3.1 (14.11.2026)
+
+Ordner `mobbmobs2-welt-9/`: Gebietsgerüst – sechs Bereiche mit organischen Übergängen, neuer Nordhang
+(Moos → Fels) und Süd-Ost-Terrassen, Uferwiese am Wurzelsee. Weltbaum 2.2 unverändert.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-9/
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`e4f6870`). Alle anderen Ordner unverändert.
