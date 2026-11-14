@@ -30,3 +30,13 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs-preview/
   rekonstruierte Schatzsuche + Vorschau-Änderungen); im Hauptrepository noch nicht committet.
 - Der Spielstand liegt nur im Browser dieses Geräts (eigene Datei, unabhängig von den Prototypen oben).
 - Die Ordner `schatzsuche/` und das Stammverzeichnis sind unverändert.
+
+## Mobbmobs 2 – Weltprototyp 1 (14.11.2026)
+
+Ordner `mobbmobs2-welt-1/`: erster erkundbarer Prototyp der neuen Spielwelt „Der Baum ist die Insel“
+(Weltbaum mit Wurzeltor, Wissensknoten und Entwicklungszweig, Lebensquell-Grotte, vier Lebensräume).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-1/
+
+- Gebaut aus Branch `mobbmobs2/welt-prototyp` (`077c389`) des Hauptrepositorys. V1 und alle anderen Ordner unverändert.
+- Fortschrittsstufen sind zum Vergleich umschaltbar (nur Darstellung). Knopf „V1-Insel“ zeigt die bisherige Heimat.
+- FPS-Anzeige oben rechts für den iPhone-Leistungstest.
