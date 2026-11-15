@@ -267,3 +267,9 @@ Ordner `mobbmobs2-welt-34/`: **Messstand.** Verbindlicher Stand `3de8e83` (Boden
 „Kleinpflanzen 2/3“ und „1/2“ (nur Messung, Standard unverändert).
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-34/?dichte → Knopf „Messung Pflanzendichte“.
 Gebaut aus Zweig `mobbmobs2/pflanzen-dichte` (`7f2b8df`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 35 · Prüfung Pflanzendichte Hälfte (verbindlicher Stand) (15.11.2026)
+
+Ordner `mobbmobs2-welt-35/`: verbindlicher Stand `f1e17ca` (Boden, Rinde, Pflanzen-Kacheln, Hälfte der Kleinpflanzen).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-35/?dichte → Knopf „Prüfung Pflanzendichte Hälfte“.
+Alle anderen Ordner unverändert.
