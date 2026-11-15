@@ -179,3 +179,9 @@ Gebaut aus Branch `mobbmobs2/welt-prototyp` (`967cc6d`). Alle anderen Ordner unv
 Ordner `mobbmobs2-welt-22/`: Stand wie welt-21 (Insel und Standard-Rendering unverändert), Test-Kit mit Kachel-Messung Kleinpflanzen.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-22/?kacheln
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`84cfe94`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 23 · Shader-Messung Stufe A (15.11.2026)
+
+Ordner `mobbmobs2-welt-23/`: Messstand (Insel und Standard-Rendering unverändert) mit Messlogik 2 und Shader-Messung Stufe A.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-23/?shader
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`d2f46c4`). Alle anderen Ordner unverändert.
