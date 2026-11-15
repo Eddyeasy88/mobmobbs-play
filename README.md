@@ -208,3 +208,10 @@ Shader mit frühem Ausstieg in der Lichtfunktion (bildgleich). Gemeinsames Licht
 Pflanzen und Auflösung unverändert. Messmodus vergleicht den bisherigen Boden gegen den optimierten.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-26/?boden → Knopf „Prüfung Boden-Übernahme“.
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`fc2864d`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 27 · Prüfung Boden-Optimierung, Messfeld korrigiert (15.11.2026)
+
+Ordner `mobbmobs2-welt-27/`: wie welt-26 (Boden-Shader mit frühem Ausstieg, sonst unverändert), zusätzlich nur die Korrektur des
+Messfelds (scrollbar, Bericht über volle Höhe, Knöpfe immer sichtbar, „Letzten Lauf anzeigen“).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-27/?boden → „Letzten Lauf anzeigen“ → „Kopieren“.
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`10caf5b` = `fc2864d` + Messfeld-Korrektur). Alle anderen Ordner unverändert.
