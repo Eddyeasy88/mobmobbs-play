@@ -185,3 +185,10 @@ Gebaut aus Branch `mobbmobs2/welt-prototyp` (`84cfe94`). Alle anderen Ordner unv
 Ordner `mobbmobs2-welt-23/`: Messstand (Insel und Standard-Rendering unverändert) mit Messlogik 2 und Shader-Messung Stufe A.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-23/?shader
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`d2f46c4`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 24 · Diagnose-Build Shader-Messung Stufe B Boden (15.11.2026)
+
+Ordner `mobbmobs2-welt-24/`: **reiner Diagnose-Build** – keine Optimierung, Insel und Standard-Rendering unverändert.
+Test-Kit mit Shader-Messung Stufe B (12 Bestandteil-Varianten des Boden-Shaders, nur zur Laufzeit im Speicher).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-24/?shader → Knopf „Shader-Messung Stufe B Boden“.
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`c16d51d` = gesicherter Stand `950c44c` + Messfeld-Knopf). Alle anderen Ordner unverändert.
