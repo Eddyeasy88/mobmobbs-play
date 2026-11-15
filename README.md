@@ -200,3 +200,11 @@ Test-Kit mit korrigierter Erkennung mehrstufiger Drosselung und Diagnose „frü
 Vergleiche: Null-Test, „licht konstant“).
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-25/?shader → Knopf „Diagnose früher Ausstieg Boden“.
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`ad7bf8a`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 26 · Prüfung Boden-Optimierung „früher Ausstieg“ (15.11.2026)
+
+Ordner `mobbmobs2-welt-26/`: erster Stand mit einer Optimierung im Standard-Rendering – **nur der Boden** nutzt einen eigenen
+Shader mit frühem Ausstieg in der Lichtfunktion (bildgleich). Gemeinsames Lichtmodell, alle anderen Materialien, Geometrie,
+Pflanzen und Auflösung unverändert. Messmodus vergleicht den bisherigen Boden gegen den optimierten.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-26/?boden → Knopf „Prüfung Boden-Übernahme“.
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`fc2864d`). Alle anderen Ordner unverändert.
