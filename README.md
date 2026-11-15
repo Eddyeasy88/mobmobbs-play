@@ -161,3 +161,9 @@ Gebaut aus Branch `mobbmobs2/welt-prototyp` (`ef786bf`). Alle anderen Ordner unv
 Ordner `mobbmobs2-welt-19/`: Stand wie welt-18 (Insel unverändert), Test-Kit mit Paarlauf A/B und Wärmetest 10 Min. (60/30 FPS).
 Links: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-19/?paarlauf · https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-19/?waerme
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`1978d4d`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 20 · Erholungstest (15.11.2026)
+
+Ordner `mobbmobs2-welt-20/`: Stand wie welt-19 (Insel unverändert), Test-Kit zusätzlich mit Erholungstest.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-20/?erholung
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`de3430c`). Alle anderen Ordner unverändert.
