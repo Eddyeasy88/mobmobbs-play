@@ -230,3 +230,11 @@ nur die Weltbaum-Rinde eine eigene Shader-Kopie mit frühem Ausstieg (bildgleich
 Materialien, Insel und Szenen unverändert. Test-Kit erkennt jetzt auch gestörte Variantenabschnitte.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-29/?rinde → Knopf „Prüfung Rinden-Übernahme“.
 Gebaut aus Zweig `mobbmobs2/rinde-ausstieg` (`39e6a4e`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 30 · Prüfung Weltobjekte + Gesamtgewinn „früher Ausstieg“ (15.11.2026)
+
+Ordner `mobbmobs2-welt-30/`: **Messstand, nicht endgültig übernommen.** Wie verbindlicher Stand `cf08ffa` (Boden + Rinde
+optimiert), zusätzlich nutzen alle bisherigen `w2_world`-Materialien (Felsen, Pflanzen, kleine Bäume, Leuchtobjekte) eine
+eigene Shader-Kopie mit frühem Ausstieg (bildgleich). Gemeinsames Lichtmodell, Insel, Szenen unverändert.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-30/?welt → Knopf „Prüfung Weltobjekte + Gesamtgewinn“.
+Gebaut aus Zweig `mobbmobs2/welt-ausstieg` (`7986d5b`). Alle anderen Ordner unverändert.
