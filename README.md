@@ -215,3 +215,10 @@ Ordner `mobbmobs2-welt-27/`: wie welt-26 (Boden-Shader mit frühem Ausstieg, son
 Messfelds (scrollbar, Bericht über volle Höhe, Knöpfe immer sichtbar, „Letzten Lauf anzeigen“).
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-27/?boden → „Letzten Lauf anzeigen“ → „Kopieren“.
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`10caf5b` = `fc2864d` + Messfeld-Korrektur). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 28 · Shader-Messung Stufe R1 Rinde (15.11.2026)
+
+Ordner `mobbmobs2-welt-28/`: **reiner Messstand** – Darstellung wie übernommener Stand (Boden mit frühem Ausstieg); Rinden-Shader,
+alle Materialien, Insel und Szenen unverändert. Neu nur der Messmodus „Shader-Messung Rinde“ (Varianten nur im Speicher).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-28/?rinde → Knopf „Shader-Messung Rinde“.
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`1a17daf`). Alle anderen Ordner unverändert.
