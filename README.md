@@ -155,3 +155,9 @@ Ordner `mobbmobs2-welt-18/`: Stand Gebiete 3.0 (Insel unverändert) mit Leistung
 Zeichenaufrufen, Erwachen-Berechnung nur bei Bedarf) und Dauerlauf 60/30 FPS im Test-Kit.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-18/?dauerlauf
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`ef786bf`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 19 · Messmethode 2 (15.11.2026)
+
+Ordner `mobbmobs2-welt-19/`: Stand wie welt-18 (Insel unverändert), Test-Kit mit Paarlauf A/B und Wärmetest 10 Min. (60/30 FPS).
+Links: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-19/?paarlauf · https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-19/?waerme
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`1978d4d`). Alle anderen Ordner unverändert.
