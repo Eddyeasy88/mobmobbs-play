@@ -148,3 +148,10 @@ Gebaut aus Branch `mobbmobs2/welt-prototyp` (`168862d`). Alle anderen Ordner unv
 Ordner `mobbmobs2-welt-17/`: Stand Gebiete 3.0 (unverändert) mit Diagnoselauf im Test-Kit.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-17/?diagnose
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`be468d5`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 18 · Leistungsrunde A (15.11.2026)
+
+Ordner `mobbmobs2-welt-18/`: Stand Gebiete 3.0 (Insel unverändert) mit Leistungsrunde A (Oberfläche mit weniger
+Zeichenaufrufen, Erwachen-Berechnung nur bei Bedarf) und Dauerlauf 60/30 FPS im Test-Kit.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-18/?dauerlauf
+Gebaut aus Branch `mobbmobs2/welt-prototyp` (`ef786bf`). Alle anderen Ordner unverändert.
