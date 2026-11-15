@@ -246,3 +246,10 @@ optimiert), zusätzlich eine Fernstufe für die Weltbaum-Rinde (Stamm, Entwicklu
 Formabweichung ≤ 2 px, Nahansicht unverändert, Schatten unverändert). Weltobjekte-Optimierung nicht enthalten.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-31/?rinde → Knopf „Prüfung Rinden-LOD“.
 Gebaut aus Zweig `mobbmobs2/rinde-lod` (`3a2ed87`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 32 · Prüfung Kleinpflanzen in Kacheln (bildgleich) (15.11.2026)
+
+Ordner `mobbmobs2-welt-32/`: **Messstand, nicht endgültig übernommen.** Wie verbindlicher Stand `cf08ffa` (Boden + Rinde
+optimiert), zusätzlich Kleinpflanzen in 20-m-Kacheln mit Sichtweite und Detailstufe wie bisher (bildgleich).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-32/?pflanzen → Knopf „Prüfung Pflanzen-Kacheln“.
+Gebaut aus Zweig `mobbmobs2/pflanzen-kacheln` (`83e76b5`). Alle anderen Ordner unverändert.
