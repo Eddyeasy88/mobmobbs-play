@@ -222,3 +222,11 @@ Ordner `mobbmobs2-welt-28/`: **reiner Messstand** – Darstellung wie übernomme
 alle Materialien, Insel und Szenen unverändert. Neu nur der Messmodus „Shader-Messung Rinde“ (Varianten nur im Speicher).
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-28/?rinde → Knopf „Shader-Messung Rinde“.
 Gebaut aus Branch `mobbmobs2/welt-prototyp` (`1a17daf`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 29 · Prüfung Rinden-Übernahme „früher Ausstieg“ (15.11.2026)
+
+Ordner `mobbmobs2-welt-29/`: **Messstand, nicht endgültig übernommen.** Wie welt-28 (Boden mit frühem Ausstieg), zusätzlich nutzt
+nur die Weltbaum-Rinde eine eigene Shader-Kopie mit frühem Ausstieg (bildgleich). Gemeinsames Lichtmodell, alle anderen
+Materialien, Insel und Szenen unverändert. Test-Kit erkennt jetzt auch gestörte Variantenabschnitte.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-29/?rinde → Knopf „Prüfung Rinden-Übernahme“.
+Gebaut aus Zweig `mobbmobs2/rinde-ausstieg` (`39e6a4e`). Alle anderen Ordner unverändert.
