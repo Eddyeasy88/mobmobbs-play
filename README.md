@@ -260,3 +260,10 @@ Ordner `mobbmobs2-welt-33/`: **Messstand, nicht endgültig übernommen.** Wie we
 Pflanzen außerhalb des Bildes einsparen; sonst bisherige Darstellung (bildgleich).
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-33/?pflanzen → Knopf „Prüfung Pflanzen-Kacheln“.
 Gebaut aus Zweig `mobbmobs2/pflanzen-kacheln` (`f83cac4`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 34 · Messung Pflanzendichte (15.11.2026)
+
+Ordner `mobbmobs2-welt-34/`: **Messstand.** Verbindlicher Stand `3de8e83` (Boden, Rinde, Pflanzen-Kacheln) plus Messvarianten
+„Kleinpflanzen 2/3“ und „1/2“ (nur Messung, Standard unverändert).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-34/?dichte → Knopf „Messung Pflanzendichte“.
+Gebaut aus Zweig `mobbmobs2/pflanzen-dichte` (`7f2b8df`). Alle anderen Ordner unverändert.
