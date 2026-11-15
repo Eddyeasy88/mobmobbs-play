@@ -253,3 +253,10 @@ Ordner `mobbmobs2-welt-32/`: **Messstand, nicht endgültig übernommen.** Wie ve
 optimiert), zusätzlich Kleinpflanzen in 20-m-Kacheln mit Sichtweite und Detailstufe wie bisher (bildgleich).
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-32/?pflanzen → Knopf „Prüfung Pflanzen-Kacheln“.
 Gebaut aus Zweig `mobbmobs2/pflanzen-kacheln` (`83e76b5`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 33 · Abschlussprüfung Pflanzen-Kacheln mit Gruppenauswahl (15.11.2026)
+
+Ordner `mobbmobs2-welt-33/`: **Messstand, nicht endgültig übernommen.** Wie welt-32, aber Kacheln je Pflanzengruppe nur, wenn sie
+Pflanzen außerhalb des Bildes einsparen; sonst bisherige Darstellung (bildgleich).
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-33/?pflanzen → Knopf „Prüfung Pflanzen-Kacheln“.
+Gebaut aus Zweig `mobbmobs2/pflanzen-kacheln` (`f83cac4`). Alle anderen Ordner unverändert.
