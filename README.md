@@ -238,3 +238,11 @@ optimiert), zusätzlich nutzen alle bisherigen `w2_world`-Materialien (Felsen, P
 eigene Shader-Kopie mit frühem Ausstieg (bildgleich). Gemeinsames Lichtmodell, Insel, Szenen unverändert.
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-30/?welt → Knopf „Prüfung Weltobjekte + Gesamtgewinn“.
 Gebaut aus Zweig `mobbmobs2/welt-ausstieg` (`7986d5b`). Alle anderen Ordner unverändert.
+
+## Mobbmobs 2 – Weltprototyp 31 · Prüfung Rinden-LOD (Fernstufe) (15.11.2026)
+
+Ordner `mobbmobs2-welt-31/`: **Messstand, nicht endgültig übernommen.** Wie verbindlicher Stand `cf08ffa` (Boden + Rinde
+optimiert), zusätzlich eine Fernstufe für die Weltbaum-Rinde (Stamm, Entwicklungsast, Grottenwurzeln; greift ab ≈ 53 m,
+Formabweichung ≤ 2 px, Nahansicht unverändert, Schatten unverändert). Weltobjekte-Optimierung nicht enthalten.
+Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-31/?rinde → Knopf „Prüfung Rinden-LOD“.
+Gebaut aus Zweig `mobbmobs2/rinde-lod` (`3a2ed87`). Alle anderen Ordner unverändert.
