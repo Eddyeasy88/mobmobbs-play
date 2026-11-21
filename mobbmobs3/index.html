@@ -13,8 +13,8 @@ html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); o
 /* ---------------- Ladebildschirm Mobbmobs 2 (L-1): Cover statt Platzhaltergrafik ---------------- */
 #loader { position: fixed; inset: 0; z-index: 10; overflow: hidden; font-family: "Nunito", system-ui, -apple-system, sans-serif; background: #0b0e26; transition: opacity .7s ease }
 #loader.done { opacity: 0; pointer-events: none }
-#cover { position: absolute; inset: -2%; background: #0b0e26 url("cover_hoch.jpg?v=6ce081da06") 50% 62% / cover no-repeat; animation: drift 26s ease-in-out infinite alternate; transform-origin: 50% 70% }
-@media (min-aspect-ratio: 4/5) { #cover { background-image: url("cover_quer.jpg?v=6ce081da06"); background-position: 50% 72% } }
+#cover { position: absolute; inset: -2%; background: #0b0e26 url("cover_hoch.jpg?v=226d2c2a1d") 50% 62% / cover no-repeat; animation: drift 26s ease-in-out infinite alternate; transform-origin: 50% 70% }
+@media (min-aspect-ratio: 4/5) { #cover { background-image: url("cover_quer.jpg?v=226d2c2a1d"); background-position: 50% 72% } }
 @keyframes drift { from { transform: scale(1.0) } to { transform: scale(1.045) translateY(-0.6%) } }
 #sky { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(8,8,24,.78) 0%, rgba(8,8,24,.35) 9%, rgba(8,8,24,0) 16%) }
 .mote { position: absolute; border-radius: 50%; background: radial-gradient(circle, #fffbe0 0%, rgba(255,240,170,.55) 35%, rgba(255,240,170,0) 70%); animation: float linear infinite; mix-blend-mode: screen }
@@ -47,7 +47,7 @@ html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); o
   </div>
 </div>
 <script>
-(function () { var B = '6ce081da06'; try { fetch('version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+(function () { var B = '226d2c2a1d'; try { fetch('version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
   if (!j || !j.build || j.build === B) return;
   var u = new URL(location.href); if (u.searchParams.get('v') === j.build) return;
   u.searchParams.set('v', j.build); location.replace(u.toString());
@@ -126,7 +126,7 @@ if (typeof module !== 'undefined') module.exports = { m2TaktMaker: m2TaktMaker }
         // ?v=<Build>: jede Veröffentlichung hat eigene Adressen, damit Safari nie alte (oder halb geladene)
         // Spieldateien aus dem Zwischenspeicher mit einer neuen Seite mischt.
         startLog('Lade ' + map[k][0]);
-        return realFetch(map[k][0] + '?v=6ce081da06', { cache: 'no-cache' }).then(function (r) {
+        return realFetch(map[k][0] + '?v=226d2c2a1d', { cache: 'no-cache' }).then(function (r) {
           if (!r.ok) throw new Error('Datei fehlt: ' + map[k][0] + ' (HTTP ' + r.status + ')');
           return new Response(r.body.pipeThrough(new DecompressionStream('gzip')), { status: 200, headers: { 'Content-Type': map[k][1] } });
         });
@@ -236,7 +236,7 @@ window.showStartProblem = function (title, text) {
 // Spielzustand blockiert ist.
 (function () {
   'use strict';
-  var BUILD = '6ce081da06';
+  var BUILD = '226d2c2a1d';
   window.__M2_BUILD = BUILD;
   var FORMAT = 'm2-fehlerbericht/1', VERSION = 'diag-3', KEY = 'm2diag.v1';
   var MAX_EVENTS = 300, VERLAUF = 40, MAX_BEFUNDE = 60, START_SCHWELLE_MS = 25000, LEBENSZEICHEN_MS = 8000, HAENGT_MS = 20000;
@@ -735,10 +735,10 @@ window.showStartProblem = function (title, text) {
   if (document.body) baueUI(); else document.addEventListener('DOMContentLoaded', baueUI);
 })();
 </script>
-<script src="tilt_bridge.js?v=6ce081da06"></script>
-<script src="index.js?v=6ce081da06"></script>
+<script src="tilt_bridge.js?v=226d2c2a1d"></script>
+<script src="index.js?v=226d2c2a1d"></script>
 <script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":28531664,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":28532176,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
 const engine = new Engine(GODOT_CONFIG);
 const fill = document.getElementById('fill'), state = document.getElementById('state'), note = document.getElementById('note'), loader = document.getElementById('loader'), bar = document.getElementById('bar');
 const missing = Engine.getMissingFeatures({ threads: false });
@@ -757,7 +757,7 @@ if (missing.length) {
       showStartProblem('Der Start dauert ungewöhnlich lange.', 'Dein Spielstand ist nicht verloren. Tippe auf „Neu laden“.');
     }
   }, 1000);
-  startLog('Build 6ce081da06');
+  startLog('Build 226d2c2a1d');
   engine.startGame({
     onProgress: function (cur, total) {
       if (total > 0) {
