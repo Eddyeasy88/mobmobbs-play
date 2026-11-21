@@ -1,0 +1,774 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"><link rel="apple-touch-icon" href="loader_moosling.png"></head><body>
+<title>Mobbmobs 2 – Der stille Steinkreis (Testversion)</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b0e26">
+<style>
+@font-face { font-family: "Baloo 2"; src: url("baloo2.ttf") format("truetype"); font-display: swap }
+@font-face { font-family: "Nunito"; src: url("nunito.ttf") format("truetype"); font-display: swap }
+:root { --bg: #0b0e26; --fg: #f4f6ff; --dim: rgba(225,230,255,.74); --turq: #2fd4c0; --violet: #8b5cf6; --gold: #ffc24a; color-scheme: dark }
+html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none }
+#canvas { display: block; width: 100%; height: 100%; outline: none }
+
+/* ---------------- Ladebildschirm Mobbmobs 2 (L-1): Cover statt Platzhaltergrafik ---------------- */
+#loader { position: fixed; inset: 0; z-index: 10; overflow: hidden; font-family: "Nunito", system-ui, -apple-system, sans-serif; background: #0b0e26; transition: opacity .7s ease }
+#loader.done { opacity: 0; pointer-events: none }
+#cover { position: absolute; inset: -2%; background: #0b0e26 url("cover_hoch.jpg?v=7ab8df3f48") 50% 62% / cover no-repeat; animation: drift 26s ease-in-out infinite alternate; transform-origin: 50% 70% }
+@media (min-aspect-ratio: 4/5) { #cover { background-image: url("cover_quer.jpg?v=7ab8df3f48"); background-position: 50% 72% } }
+@keyframes drift { from { transform: scale(1.0) } to { transform: scale(1.045) translateY(-0.6%) } }
+#sky { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(8,8,24,.78) 0%, rgba(8,8,24,.35) 9%, rgba(8,8,24,0) 16%) }
+.mote { position: absolute; border-radius: 50%; background: radial-gradient(circle, #fffbe0 0%, rgba(255,240,170,.55) 35%, rgba(255,240,170,0) 70%); animation: float linear infinite; mix-blend-mode: screen }
+@keyframes float { from { transform: translateY(0) } to { transform: translateY(-110vh) } }
+#top { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top, 0px) + 6vh); text-align: center; padding: 0 max(16px, env(safe-area-inset-left, 0px)) }
+#top h1 { margin: 0; white-space: nowrap; font: 800 clamp(54px, 16vw, 128px)/.95 "Baloo 2", system-ui, sans-serif; letter-spacing: .005em;
+  background: linear-gradient(180deg, #fffbe8 0%, #ffe28a 38%, #f6b23c 70%, #d9801c 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 3px 0 #6b3008) drop-shadow(0 6px 0 #3a1a06) drop-shadow(0 0 26px rgba(255,214,120,.45)) drop-shadow(0 14px 22px rgba(0,0,0,.55)) }
+#top p { margin: 10px 0 0; font: 800 clamp(14px, 3.6vw, 19px)/1.3 "Nunito", system-ui, sans-serif; color: #f3ecff; letter-spacing: .22em; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,.75), 0 0 18px rgba(80,60,160,.6) }
+#bottom { position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 2.4vh); display: grid; gap: 8px; justify-items: center; padding: 0 max(16px, env(safe-area-inset-left, 0px)) }
+#bar { position: relative; width: min(360px, 74vw); height: 18px; border-radius: 12px; background: linear-gradient(180deg, #2a1608, #3d220e); box-shadow: inset 0 0 0 2px #8a5a2a, inset 0 2px 0 3px rgba(0,0,0,.35), 0 0 0 2px #2a1608, 0 8px 22px rgba(0,0,0,.55); overflow: hidden }
+#fill { position: absolute; inset: 3px auto 3px 3px; width: 0; border-radius: 8px; background: linear-gradient(90deg, #22b8a6, #7ef0df 55%, #ffe28a); box-shadow: 0 0 14px rgba(126,240,223,.85); transition: width .25s ease }
+#fill::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.6) 50%, transparent 70%); animation: shine 1.6s linear infinite }
+@keyframes shine { from { transform: translateX(-100%) } to { transform: translateX(100%) } }
+#state { font: 800 14px/1.2 "Nunito", system-ui, sans-serif; color: #f1ecff; letter-spacing: .06em; text-shadow: 0 2px 8px rgba(0,0,0,.8); font-variant-numeric: tabular-nums }
+#note { color: #ffd2cb; font: 700 15px/1.4 system-ui, sans-serif; max-width: 34ch; text-align: center }
+#loader.problem #note { background: rgba(11,14,38,.92); border: 1.5px solid rgba(255,194,74,.55); border-radius: 18px; padding: 16px 18px; max-height: 60vh; overflow: auto }
+#loader.problem #note b { display: block; color: #ffc24a; font-size: 17px }
+@media (prefers-reduced-motion: reduce) { #cover, .mote, #fill::after { animation: none } }
+</style>
+<canvas id="canvas" tabindex="0">Dein Browser unterstützt kein WebGL 2.</canvas>
+<div id="loader" role="status" aria-live="polite">
+  <div id="cover" role="img" aria-label="Der Weltbaum mit dem Wurzeltor, davor Grollfels, Nibbit, Moosling und Flimm"></div>
+  <div id="sky"></div>
+  <div id="top"><h1>Mobbmobs</h1><p id="sub">Die Insel unter dem Weltbaum</p></div>
+  <div id="bottom">
+    <div id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="fill"></div></div>
+    <div id="state">Lädt …</div>
+    <div id="note" hidden></div>
+  </div>
+</div>
+<script>
+// Mobbmobs 2 – Spieltakt im Browser (20.11.2026): Die Spielschleife läuft mit höchstens 30 Durchläufen je Sekunde.
+//
+// Im Browser gibt requestAnimationFrame den Takt der Engine vor (meist 60/s); eine Obergrenze der Engine greift dort
+// nicht. Dieser Baustein reicht nur so viele Aufrufe weiter, wie der Spieltakt vorsieht. Damit läuft die Spielschleife
+// der Engine 30-mal je Sekunde: Spiellogik und Zeichnen je einmal pro Durchlauf – statt 60-mal zu rechnen und nur
+// jedes zweite Bild zu zeigen.
+// Die Physik bleibt bei 60 festen Schritten je Sekunde (M2FrameRate.PHYSICS_HZ, beabsichtigt): Die Engine rechnet sie
+// innerhalb eines Durchlaufs nach, also zwei Schritte je Durchlauf. Der Baustein ändert nur, wie oft die Schleife läuft.
+// Zeitgesteuert: Auf einem 120-Hz-Bildschirm wird jeder vierte Aufruf weitergereicht, auf einem langsameren Gerät jeder.
+// Abschalten zum Vergleich: ?darstellung=voll (wie die übrigen Sparmaßnahmen).
+//
+// m2TaktMaker(fps, raf, caf) liefert {request, cancel}; getrennt vom Einbau, damit es ohne Browser prüfbar ist.
+function m2TaktMaker(fps, raf, caf) {
+  var period = 1000 / fps, tol = period * 0.25, last = -1e12, next = 1, open = {};
+  function request(cb) {
+    var id = next++;
+    function tick(ts) {
+      if (!(id in open)) return;
+      if (ts - last >= period - tol) {
+        delete open[id];
+        // Rest mitnehmen, damit der Mittelwert stimmt; nach einer Pause nicht nachholen
+        last = (ts - last > 2 * period) ? ts : last + period;
+        cb(ts);
+      } else {
+        open[id] = raf(tick);
+      }
+    }
+    open[id] = raf(tick);
+    return id;
+  }
+  function cancel(id) {
+    if (id in open) { caf(open[id]); delete open[id]; }
+  }
+  return { request: request, cancel: cancel };
+}
+if (typeof window !== 'undefined') {
+  (function () {
+    var voll = /(^|[?&])darstellung=voll(&|$)/.test(window.location.search);
+    window.M2_TAKT = voll ? 0 : 30;
+    if (voll || typeof window.requestAnimationFrame !== 'function') { window.M2_TAKT = 0; return; }
+    var t = m2TaktMaker(window.M2_TAKT, window.requestAnimationFrame.bind(window), window.cancelAnimationFrame.bind(window));
+    window.requestAnimationFrame = t.request;
+    window.cancelAnimationFrame = t.cancel;
+  })();
+}
+if (typeof module !== 'undefined') module.exports = { m2TaktMaker: m2TaktMaker };
+</script>
+<script>
+// Ladebildschirm (L-1): echte Fortschrittsanzeige (onProgress der Engine), keine künstliche Wartezeit, keine Tipps.
+(function () {
+  const sky = document.getElementById('sky');
+  for (let i = 0; i < 22; i++) {
+    const m = document.createElement('span'); m.className = 'mote';
+    const s = 3 + Math.random() * 6; m.style.width = m.style.height = s + 'px';
+    m.style.left = (Math.random() * 100) + '%'; m.style.top = (55 + Math.random() * 60) + '%';
+    m.style.animationDuration = (12 + Math.random() * 14) + 's'; m.style.animationDelay = (-Math.random() * 24) + 's';
+    m.style.opacity = .3 + Math.random() * .45; sky.appendChild(m);
+  }
+})();
+</script>
+<script>
+// Godot fordert index.wasm und index.pck an; ausgeliefert werden komprimierte Fassungen.
+(function () {
+  const realFetch = window.fetch.bind(window);
+  const map = { 'index.wasm': ['engine.gz.wasm', 'application/wasm'], 'index.pck': ['data.gz.wasm', 'application/octet-stream'] };
+  window.fetch = function (input, init) {
+    const url = typeof input === 'string' ? input : (input && input.url) || '';
+    for (const k in map) {
+      if (url.split('?')[0].endsWith(k)) {
+        // ?v=<Build>: jede Veröffentlichung hat eigene Adressen, damit Safari nie alte (oder halb geladene)
+        // Spieldateien aus dem Zwischenspeicher mit einer neuen Seite mischt.
+        startLog('Lade ' + map[k][0]);
+        return realFetch(map[k][0] + '?v=7ab8df3f48', { cache: 'no-cache' }).then(function (r) {
+          if (!r.ok) throw new Error('Datei fehlt: ' + map[k][0] + ' (HTTP ' + r.status + ')');
+          return new Response(r.body.pipeThrough(new DecompressionStream('gzip')), { status: 200, headers: { 'Content-Type': map[k][1] } });
+        });
+      }
+    }
+    return realFetch(input, init);
+  };
+})();
+</script>
+<script>
+// ---------------- Startprotokoll und Absicherung des Spielstand-Speichers ----------------
+// Ursache des Start-Hängers (iPhone-Test 12.11.2026): Godot öffnet beim Start die IndexedDB des Browsers (dort liegt
+// user://, also der Spielstand) und wartet ohne Zeitlimit auf die Antwort. iOS-Safari beantwortet diese Anfrage nach
+// dem Zurückkehren aus dem Hintergrund manchmal nie (bekannter WebKit-Fehler: Verbindung zum IndexedDB-Server verloren)
+// – der Ladebildschirm blieb dann für immer bei „Die Insel erwacht …“ stehen.
+// Abhilfe: Jede Öffnungsanfrage bekommt ein Zeitlimit und wird mehrfach neu gestellt; antwortet der Speicher gar nicht,
+// startet das Spiel NICHT ohne Spielstand (sonst sähe es so aus, als wäre er weg), sondern zeigt einen Hinweis mit
+// „Neu laden“. Der gespeicherte Stand wird dabei nie verändert oder gelöscht.
+window.__startLog = [];
+window.startLog = function (msg) {
+  const t = (performance.now() / 1000).toFixed(1);
+  window.__startLog.push(t + ' s  ' + msg);
+  console.log('[Start] ' + msg);
+};
+startLog('Seite geladen (' + navigator.userAgent.replace(/^.*?\(([^)]*)\).*$/, '$1') + ')');
+window.showStartProblem = function (title, text) {
+  document.getElementById('loader').classList.add('problem');
+  const note = document.getElementById('note');
+  note.hidden = false;
+  note.innerHTML = '';
+  const b = document.createElement('b'); b.textContent = title; note.appendChild(b);
+  const p = document.createElement('div'); p.textContent = text; p.style.marginTop = '6px'; note.appendChild(p);
+  const btn = document.createElement('button'); btn.textContent = 'Neu laden';
+  btn.style.cssText = 'margin-top:12px;font:800 17px "Nunito",system-ui,sans-serif;padding:12px 26px;border:0;border-radius:14px;background:#ffc24a;color:#3a1d00';
+  btn.onclick = function () { location.reload(); };
+  note.appendChild(btn);
+  const log = document.createElement('details'); log.style.cssText = 'margin-top:10px;text-align:left;color:#cfd5ff;font:12px/1.4 ui-monospace,monospace';
+  const sum = document.createElement('summary'); sum.textContent = 'Startprotokoll'; log.appendChild(sum);
+  const pre = document.createElement('pre'); pre.style.whiteSpace = 'pre-wrap'; pre.textContent = window.__startLog.join('\n'); log.appendChild(pre);
+  note.appendChild(log);
+};
+(function () {
+  if (typeof indexedDB === 'undefined') return;
+  const realOpen = indexedDB.open.bind(indexedDB);
+  const TRY_MS = 2500, TRIES = 4;
+  indexedDB.open = function (name, version) {
+    // Stellvertreter-Anfrage: Godot (Emscripten IDBFS) setzt onsuccess/onerror/onupgradeneeded darauf.
+    const fake = { result: undefined, error: null, transaction: null, readyState: 'pending', onsuccess: null, onerror: null, onupgradeneeded: null, onblocked: null };
+    let attempt = 0, done = false, timer = null;
+    function ev(target) { return { target: target, preventDefault: function () {}, stopPropagation: function () {} }; }
+    function tryOpen() {
+      attempt++;
+      const mine = attempt;
+      startLog('Spielstand-Speicher öffnen (' + name + ', Versuch ' + mine + ')');
+      let req;
+      try { req = version === undefined ? realOpen(name) : realOpen(name, version); }
+      catch (e) { done = true; fake.error = e; fake.readyState = 'done'; if (fake.onerror) fake.onerror(ev(fake)); return; }
+      req.onupgradeneeded = function (e) {
+        if (done) return;
+        fake.result = req.result; fake.transaction = req.transaction;
+        startLog('Spielstand-Speicher wird eingerichtet');
+        if (fake.onupgradeneeded) fake.onupgradeneeded(ev(fake));
+      };
+      req.onsuccess = function () {
+        if (done) { try { req.result.close(); } catch (e) {} return; }   // verspätete Antwort eines älteren Versuchs
+        done = true; clearTimeout(timer);
+        fake.result = req.result; fake.readyState = 'done';
+        startLog('Spielstand-Speicher bereit (Versuch ' + mine + ')');
+        if (fake.onsuccess) fake.onsuccess(ev(fake));
+      };
+      req.onerror = function (e) {
+        if (done) return;
+        done = true; clearTimeout(timer);
+        fake.error = req.error; fake.readyState = 'done';
+        startLog('Spielstand-Speicher Fehler: ' + (req.error && req.error.message));
+        if (e && e.preventDefault) e.preventDefault();
+        if (fake.onerror) fake.onerror(ev(fake));
+      };
+      req.onblocked = function () { startLog('Spielstand-Speicher blockiert (anderer Tab?)'); };
+      timer = setTimeout(function () {
+        if (done) return;
+        if (attempt < TRIES) { startLog('Spielstand-Speicher antwortet nicht – neuer Versuch'); tryOpen(); return; }
+        startLog('Spielstand-Speicher antwortet nicht – Start angehalten');
+        window.__storageStuck = true;
+        showStartProblem('Der Speicher deines Browsers antwortet gerade nicht.',
+          'Dein Spielstand ist nicht verloren. Tippe auf „Neu laden“. Hilft das nicht: Safari ganz schließen ' +
+          '(im App-Umschalter nach oben wischen) und die Seite neu öffnen.');
+      }, TRY_MS);
+    }
+    tryOpen();
+    return fake;
+  };
+})();
+</script>
+<script>
+// Mobbmobs 2 – lokales Fehlerprotokoll im Browser (P3). NUR in Entwicklungs- und Testversionen.
+//
+// Der Web-Bau fügt dieses Skript nur mit M2_DIAG=1 in den Ladebildschirm ein (Arbeitskopie); ohne M2_DIAG ist es nicht
+// im Build. Gegenstück im Spiel: src/mobbmobs2/diag/m2_diag.gd (Zustand, Wächter, Dialog, Tipps).
+//
+// - erfasst JavaScript- und Godot-Fehler (onerror, unhandledrejection, console.error), Warnungen (nur Verlauf),
+//   Ladezeiten und Startprobleme des Ladebildschirms, Sichtbarkeit und das Lebenszeichen des Spiels;
+// - speichert alles NUR lokal (localStorage, diese und die vorherige Sitzung, auch nach Neuladen oder Absturz);
+// - erzeugt Berichte im Format m2-fehlerbericht/1 (JSON Lines) und die Kurzform wie tools/mobbmobs2/test/fehlerbericht.py;
+// - „Fehlerbericht teilen“ über die Teilen-Funktion des Geräts (Web Share), sonst Kopieren oder Datei.
+// Keine automatische Übertragung. Das Bedienfeld ist reines HTML außerhalb des Spiels und funktioniert auch, wenn der
+// Spielzustand blockiert ist.
+(function () {
+  'use strict';
+  var BUILD = '7ab8df3f48';
+  window.__M2_BUILD = BUILD;
+  var FORMAT = 'm2-fehlerbericht/1', VERSION = 'diag-3', KEY = 'm2diag.v1';
+  var MAX_EVENTS = 300, VERLAUF = 40, MAX_BEFUNDE = 60, START_SCHWELLE_MS = 25000, LEBENSZEICHEN_MS = 8000, HAENGT_MS = 20000;
+  var T0 = Date.now();
+  var ui = { update: function () {} };            // Bedienfeld (wird unten gebaut)
+  var phase = 'Ladebildschirm', tLoaded = 0, tStarted = 0;
+  var cost = 0;                                   // eigene Rechenzeit in ms
+  function timed(fn) { return function () { var a = performance.now(); try { return fn.apply(this, arguments); } finally { cost += performance.now() - a; } }; }
+
+  // ------------------------------------------------------------ Datenschutz (wie fehlerbericht_format.json)
+  var MUSTER = [
+    [/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, '‹E-Mail›'],
+    [/\b(?:\d{1,3}\.){3}\d{1,3}\b/g, '‹IP›'],
+    [/(?:\/home\/|\/Users\/|\/root\/|[A-Za-z]:\\Users\\)[^\s'")]*/g, '‹Pfad›'],
+    [/Mozilla\/5\.0[^\n]*/g, '‹Browser›']
+  ];
+  var names = [];                                 // vom Spieler vergebene Namen – nur im Speicher, nie gespeichert
+  function esc(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+  function clean(t, n) {
+    t = String(t == null ? '' : t);
+    for (var i = 0; i < MUSTER.length; i++) t = t.replace(MUSTER[i][0], MUSTER[i][1]);
+    for (var j = 0; j < names.length; j++) if (names[j]) t = t.replace(new RegExp(esc(names[j]), 'gi'), '‹Name›');
+    t = t.replace(/https?:\/\/[^\s)'"]+/g, function (u) { return u.split(/[?#]/)[0].replace(/^https?:\/\/[^/]+/, ''); });
+    if (n && t.length > n) t = t.slice(0, n - 1) + '…';
+    return t;
+  }
+  function pad(x) { return (x < 10 ? '0' : '') + x; }
+  function iso(ms) { return new Date(ms).toISOString().replace(/\.\d+Z$/, 'Z'); }
+  function uhr(ms) { var d = new Date(ms || Date.now()); return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); }
+
+  // ------------------------------------------------------------ SHA-1 (Befund-ID wie fehlerbericht.befund_id)
+  function sha1(str) {
+    var b = unescape(encodeURIComponent(str)), n = b.length, w = [], i;
+    for (i = 0; i < n; i++) w[i >> 2] |= b.charCodeAt(i) << (24 - (i % 4) * 8);
+    w[n >> 2] |= 0x80 << (24 - (n % 4) * 8); w[(((n + 8) >> 6) << 4) + 15] = n * 8;
+    var h0 = 0x67452301, h1 = 0xEFCDAB89, h2 = 0x98BADCFE, h3 = 0x10325476, h4 = 0xC3D2E1F0, x = [];
+    for (i = 0; i < w.length; i += 16) {
+      var a = h0, bb = h1, c = h2, d = h3, e = h4;
+      for (var t = 0; t < 80; t++) {
+        x[t] = t < 16 ? (w[i + t] | 0) : ((x[t - 3] ^ x[t - 8] ^ x[t - 14] ^ x[t - 16]) << 1 | (x[t - 3] ^ x[t - 8] ^ x[t - 14] ^ x[t - 16]) >>> 31);
+        var f = t < 20 ? (bb & c | ~bb & d) + 0x5A827999 : t < 40 ? (bb ^ c ^ d) + 0x6ED9EBA1 : t < 60 ? (bb & c | bb & d | c & d) + 0x8F1BBCDC : (bb ^ c ^ d) + 0xCA62C1D6;
+        var tmp = ((a << 5 | a >>> 27) + f + e + x[t]) | 0;
+        e = d; d = c; c = bb << 30 | bb >>> 2; bb = a; a = tmp;
+      }
+      h0 = h0 + a | 0; h1 = h1 + bb | 0; h2 = h2 + c | 0; h3 = h3 + d | 0; h4 = h4 + e | 0;
+    }
+    return [h0, h1, h2, h3, h4].map(function (v) { return ('00000000' + (v >>> 0).toString(16)).slice(-8); }).join('');
+  }
+  function befundId(b) {
+    var fs = b.fundstelle || {};
+    return sha1([b.titel || '', b.bereich || '', fs.datei || '', fs.funktion || '', fs.szenario || '', fs.schritt || ''].join('|')).slice(0, 10);
+  }
+
+  // ------------------------------------------------------------ Gerät (grob)
+  // Gerät grob aus der Browserkennung. iOS-Version und Safari-Version getrennt: Seit iOS 26 meldet Safari in der
+  // Kennung eine eingefrorene System-Version (18_x) bzw. gar keine; die Safari-Hauptversion entspricht dann der
+  // iOS-Hauptversion („iOS 27 (laut Safari)“). Ältere Geräte: Version aus „OS 17_4 like Mac OS X“.
+  function parseUA(ua, touch) {
+    var u = {}, m;
+    var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && touch > 1);
+    if (ios) {
+      var os = (m = ua.match(/OS (\d+)[_.\d]* like Mac/)) ? +m[1] : 0;
+      var saf = (m = ua.match(/Version\/(\d+)(?:\.(\d+))?/)) ? +m[1] : 0;
+      var safVoll = m ? m[1] + (m[2] ? '.' + m[2] : '') : '';
+      if (saf >= 26 && (!os || os < saf)) u.system = 'iOS ' + saf + ' (laut Safari)';
+      else u.system = os ? 'iOS ' + os : (saf ? 'iOS ' + saf + ' (laut Safari)' : 'iOS (Version unbekannt)');
+      if (/CriOS|FxiOS|EdgiOS/.test(ua)) { u.plattform = 'sonstige'; u.browser = /CriOS/.test(ua) ? 'Chrome (iOS)' : 'anderer Browser'; }
+      else { u.plattform = 'ios-safari'; u.browser = safVoll ? 'Safari ' + safVoll : 'Safari (Version unbekannt)'; }
+    } else if (/Android/.test(ua)) {
+      m = ua.match(/Android (\d+)/); u.system = 'Android' + (m ? ' ' + m[1] : '');
+      m = ua.match(/Chrome\/(\d+)/); u.plattform = m ? 'android-chrome' : 'sonstige'; if (m) u.browser = 'Chrome ' + m[1];
+    } else if (/Chrome\/(\d+)/.test(ua) && !/Edg\//.test(ua)) {
+      u.plattform = 'desktop-chrome'; u.browser = 'Chrome ' + ua.match(/Chrome\/(\d+)/)[1];
+      u.system = /Mac OS X/.test(ua) ? 'macOS' : /Windows/.test(ua) ? 'Windows' : /Linux/.test(ua) ? 'Linux' : '';
+    } else if (/Safari\//.test(ua) && /Mac OS X/.test(ua)) {
+      u.plattform = 'desktop-safari'; m = ua.match(/Version\/(\d+)/); u.browser = 'Safari' + (m ? ' ' + m[1] : ''); u.system = 'macOS';
+    } else u.plattform = 'sonstige';
+    return u;
+  }
+  function umgebung() {
+    var u = parseUA(navigator.userAgent, navigator.maxTouchPoints || 0);
+    u.bild = (screen.width | 0) + 'x' + (screen.height | 0);
+    u.ausrichtung = innerWidth > innerHeight ? 'quer' : 'hoch';
+    for (var k in u) if (!u[k]) delete u[k];
+    return u;
+  }
+
+  // ------------------------------------------------------------ Sitzungen (lokal)
+  function laden() { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } }
+  var store = laden();
+  var LAUF_ID = 'geraet-' + iso(T0).replace(/[-:]/g, '') + '-' + BUILD;
+  var cur = { lauf: { format: FORMAT, art: 'lauf', lauf_id: LAUF_ID, quelle: 'geraet', build: BUILD, start: iso(T0), umgebung: umgebung() },
+              befunde: [], events: [], state: null, closed: false, saved: T0 };
+  var prev = (store.sessions || [])[0] || null;
+  store.sessions = [cur].concat(prev ? [prev] : []);
+  var saveTimer = 0;
+  function speichern() {
+    clearTimeout(saveTimer); saveTimer = 0;
+    var a = performance.now();
+    cur.saved = Date.now();
+    try { localStorage.setItem(KEY, JSON.stringify(store)); }
+    catch (e) {                                   // Speicher voll: ältere Ereignisse kürzen, vorherige Sitzung opfern
+      cur.events = cur.events.slice(-120); store.sessions = [cur];
+      try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e2) {}
+    }
+    cost += performance.now() - a;
+  }
+  function bald() { if (!saveTimer) saveTimer = setTimeout(speichern, 1500); }
+
+  function ev(text) {
+    cur.events.push(clean(uhr() + ' ' + text, 158));
+    if (cur.events.length > MAX_EVENTS) cur.events.splice(0, cur.events.length - MAX_EVENTS);
+    bald();
+  }
+
+  // ------------------------------------------------------------ Befunde
+  var TILT = function () { var t = window.mobTilt; return t ? { tilt_permission: String(t.permission), tilt_events: t.count | 0, page_hidden: !!t.hidden } : {}; };
+  function zustand() {
+    var z = {}, s = (cur.state && cur.state.zustand) || {}, k;
+    for (k in s) if (s[k] === null || typeof s[k] !== 'object') z[k] = typeof s[k] === 'string' ? clean(s[k], 120) : s[k];
+    var t = TILT(); for (k in t) z[k] = t[k];    // Neigung immer aktuell aus der Brücke (auch wenn das Spiel steht)
+    return z;
+  }
+  function istMessung(b) { return ((b && b.fundstelle) || {}).szenario === 'Bildraten-Statistik'; }   // Messung, kein Fehler
+  function fehlerZahl(s) { var n = 0; for (var i = 0; i < s.befunde.length; i++) if (!istMessung(s.befunde[i])) n++; return n; }
+  function addBefund(b, ausSpiel) {
+    if (!b.befund_id) b.befund_id = befundId(b);
+    for (var i = 0; i < cur.befunde.length; i++) {
+      if (cur.befunde[i].befund_id === b.befund_id) {
+        var a = cur.befunde[i];
+        if (ausSpiel && b.messwerte) {   // P4c: Spiel meldet zusammengefasste Messwerte (Bildzeit-Spitzen) erneut – Werte ersetzen
+          a.messwerte = b.messwerte; if (b.tatsaechlich) a.tatsaechlich = b.tatsaechlich;
+          a.wiederholungen = b.wiederholungen || (a.wiederholungen || 1) + 1;
+        } else a.wiederholungen = (a.wiederholungen || 1) + 1;
+        bald(); ui.update(); return a;
+      }
+    }
+    if (!istMessung(b) && fehlerZahl(cur) >= MAX_BEFUNDE) return null;   // Messungen begrenzt das Spiel selbst (höchstens 30)
+    cur.befunde.push(b);
+    if (!ausSpiel) ev('BEFUND ' + b.schweregrad + ': ' + b.titel);   // Befunde des Spiels hat es selbst schon vermerkt
+    speichern(); ui.update();
+    return b;
+  }
+  function befund(sg, titel, typ, meldung, fund, extra) {
+    var s = cur.state || {};
+    var schritte = ((s.schritte || []).map(function (x) { return clean(x, 160); })).slice(-29);
+    schritte.push('Bereich: ' + clean(s.bereich || phase, 140));
+    var b = { format: FORMAT, art: 'befund', lauf_id: LAUF_ID, zeit: iso(Date.now()), build: BUILD, quelle: 'geraet',
+      schweregrad: sg, titel: clean(titel, 120), fehler: { typ: typ, meldung: clean(meldung, 500) },
+      bereich: clean(s.bereich || phase, 80), zustand: zustand(), letzte_aktion: clean(s.letzte_aktion || '(noch keine Aktion)', 120),
+      schritte: schritte, fundstelle: fund, verlauf: cur.events.slice(-VERLAUF), umgebung: cur.lauf.umgebung };
+    extra = extra || {};
+    for (var k in extra) if (extra[k] !== undefined && extra[k] !== '') b[k] = typeof extra[k] === 'string' ? clean(extra[k], 300) : extra[k];
+    if (b.fehler && extra.stack) { b.fehler.stack = extra.stack; delete b.stack; }
+    return addBefund(b);
+  }
+
+  // ------------------------------------------------------------ Ladebildschirm und Start
+  if (window.startLog) {
+    var origLog = window.startLog;
+    window.startLog = timed(function (msg) {
+      origLog(msg);
+      var m = /^Seite geladen/.test(msg) ? 'Seite geladen' : String(msg);
+      ev('Start: ' + m);
+      var now = Date.now();
+      if (/^Spieldateien geladen/.test(msg)) tLoaded = now;
+      if (/^Spiel gestartet/.test(msg)) {
+        tStarted = now; phase = 'Spielstart';
+        var ms = now - T0;
+        if (ms > START_SCHWELLE_MS) befund('performance', 'Spielstart dauert lange', 'leistung',
+          'Vom Aufruf bis zum Spielstart ' + (ms / 1000).toFixed(1) + ' s (Schwelle ' + START_SCHWELLE_MS / 1000 + ' s).',
+          { datei: 'res://tools/mobbmobs2/web/shell_m2.html', szenario: 'Spielstart' },
+          { messwerte: { ladezeit_ms: ms, download_ms: tLoaded ? tLoaded - T0 : 0, start_ms: tLoaded ? now - tLoaded : 0, schwelle_ms: START_SCHWELLE_MS } });
+      }
+    });
+    origLog.__m2 = true;
+  }
+  if (window.showStartProblem) {
+    var origProblem = window.showStartProblem;
+    window.showStartProblem = function (title, text) {
+      origProblem(title, text);
+      befund('kritisch', 'Start nicht abgeschlossen: ' + title, 'laden', String(title) + ' ' + String(text),
+        { datei: 'res://tools/mobbmobs2/web/shell_m2.html', funktion: 'showStartProblem', szenario: 'Spielstart' },
+        { tatsaechlich: 'Hinweis „' + title + '“ auf dem Ladebildschirm' });
+    };
+  }
+
+  // ------------------------------------------------------------ Fehler und Warnungen
+  var pending = null, pendingTimer = 0;
+  function flush() {
+    clearTimeout(pendingTimer); pendingTimer = 0;
+    var p = pending; pending = null;
+    if (!p) return;
+    if (p.warn) { ev('Warnung: ' + p.msg); return; }
+    var fund = p.at ? { datei: clean(p.at.datei, 160), zeile: p.at.zeile, funktion: clean(p.at.funktion, 80), szenario: 'Laufzeit' } : { szenario: 'Laufzeit' };
+    if (p.kind === 'SCRIPT ERROR') befund('kritisch', 'Skriptfehler: ' + p.msg, 'skriptfehler', p.msg, fund, { stack: p.stack.length ? p.stack : undefined });
+    else befund('funktional', 'Engine-Fehler: ' + p.msg, 'engine-fehler', p.msg, fund, { stack: p.stack.length ? p.stack : undefined });
+  }
+  var AT = /^\s*at:\s*(\S+)\s+\((.+?):(\d+)\)/, ENG = /^(SCRIPT ERROR|USER ERROR|ERROR|SCRIPT WARNING|USER WARNING|WARNING):\s*(.*)$/;
+  function godotLine(line) {
+    var m = AT.exec(line);
+    if (m && pending) {
+      var datei = m[2].replace(/^.*?(\/(?:src|tools|tests|scenes|data|assets)\/)/, 'res:/$1');
+      if (!pending.at) pending.at = { funktion: m[1], datei: datei, zeile: +m[3] };
+      if (pending.stack.length < 20) pending.stack.push(clean(datei + ':' + m[3] + ' ' + m[1], 200));
+      return true;
+    }
+    if (/^\s*(GDScript backtrace|\[\d+\])/.test(line) && pending) return true;
+    m = ENG.exec(line);
+    if (m) {
+      flush();
+      pending = { kind: m[1], msg: clean(m[2], 300), warn: /WARNING/.test(m[1]), at: null, stack: [] };
+      pendingTimer = setTimeout(flush, 300);
+      return true;
+    }
+    return false;
+  }
+  var cErr = console.error, cWarn = console.warn;
+  console.error = function () {
+    cErr.apply(console, arguments);
+    var a = performance.now();
+    try {
+      var line = Array.prototype.map.call(arguments, function (x) { return x && x.message ? x.message : String(x); }).join(' ');
+      if (!godotLine(line)) { flush(); befund('funktional', 'Konsolenfehler: ' + clean(line, 100), 'js-fehler', line, { szenario: 'Konsole' }); }
+    } catch (e) {}
+    cost += performance.now() - a;
+  };
+  console.warn = function () {
+    cWarn.apply(console, arguments);
+    try {
+      var line = Array.prototype.map.call(arguments, String).join(' ');
+      if (!godotLine(line)) ev('Warnung: ' + clean(line, 120));
+    } catch (e) {}
+  };
+  window.addEventListener('error', timed(function (e) {
+    if (!e || (!e.message && !e.error)) return;      // Ladefehler von Ressourcen haben keine Meldung
+    var msg = e.message || String(e.error);
+    var datei = String(e.filename || '').split('/').pop().split('?')[0];
+    var absturz = /RuntimeError|unreachable|abort\(|Aborted|memory access out of bounds/i.test(msg);
+    befund(absturz ? 'kritisch' : 'funktional', (absturz ? 'Spiel abgestürzt: ' : 'JavaScript-Fehler: ') + clean(msg, 90),
+      absturz ? 'absturz' : 'js-fehler', msg, { datei: clean(datei || 'index.html', 160), zeile: e.lineno || undefined, szenario: 'Laufzeit' });
+  }));
+  window.addEventListener('unhandledrejection', timed(function (e) {
+    var r = e && e.reason, msg = r && r.message ? r.message : String(r);
+    befund('funktional', 'Unbehandelte Ablehnung: ' + clean(msg, 90), 'js-fehler', msg, { szenario: 'Laufzeit' });
+  }));
+
+  // ------------------------------------------------------------ Sichtbarkeit und Lebenszeichen
+  var lastShown = 0, lastState = 0, stalled = 0, stallKritisch = false;
+  var teilenOffen = false;   // Teilen-Dialog des Systems offen: der Browser hält das Spiel an, ohne die Seite als verborgen zu melden
+  document.addEventListener('visibilitychange', function () {
+    ev(document.hidden ? 'Seite im Hintergrund' : 'Seite wieder sichtbar');
+    if (!document.hidden) lastShown = Date.now();
+    speichern();
+  });
+  window.addEventListener('pagehide', function () { cur.closed = true; ev('Seite verlassen'); speichern(); });
+  // Lebenszeichen: Das Spiel meldet sich jede Sekunde. Bleibt es aus, obwohl die Seite sichtbar ist und dieses Skript
+  // läuft, steht das Spiel. Kommt es wieder, war es ein Stillstand (Leistung); bleibt es 20 s aus, reagiert das Spiel nicht.
+  setInterval(timed(function () {
+    if (!tStarted || document.hidden || !lastState) return;
+    var still = Date.now() - lastState;
+    if (still > LEBENSZEICHEN_MS && Date.now() - lastShown > LEBENSZEICHEN_MS && !stalled) { stalled = lastState; ev('Spiel meldet sich seit ' + Math.round(still / 1000) + ' s nicht'); }
+    if (stalled && !stallKritisch && still > HAENGT_MS && Date.now() - lastShown > HAENGT_MS) {
+      stallKritisch = true;
+      befund('kritisch', 'Spiel reagiert nicht', 'absturz', 'Seit ' + Math.round(still / 1000) + ' s kein Lebenszeichen des Spiels bei sichtbarer Seite.',
+        { szenario: 'Lebenszeichen', schritt: clean((cur.state && cur.state.bereich) || phase, 120) },
+        { erwartet: 'Spiel meldet sich jede Sekunde', tatsaechlich: 'kein Lebenszeichen seit ' + Math.round(still / 1000) + ' s', messwerte: { stille_ms: still } });
+    }
+  }), 2000);
+
+  // ------------------------------------------------------------ Freigabe-Anfragen der Neigungsbrücke mitzählen
+  // Die Brücke fragt die Freigabe beim Tipp in den angemeldeten Knopfbereich an – unabhängig davon, ob das Spiel den
+  // Tipp erhält. Das Spiel vergleicht diese Zahl mit seiner Levelphase (Wächter „Levelstart reagiert nicht“).
+  function wrapTilt() {
+    var t = window.mobTilt;
+    if (!t || t.__m2wrap || typeof t.request !== 'function') return !!(t && t.__m2wrap);
+    var orig = t.request;
+    t.m2_requests = 0;
+    t.request = function () { t.m2_requests += 1; ev('Neigungsbrücke: Freigabe angefragt (' + t.permission + ')'); return orig.apply(t, arguments); };
+    t.__m2wrap = true;
+    return true;
+  }
+  if (!wrapTilt()) { var wt = setInterval(function () { if (wrapTilt()) clearInterval(wt); }, 200); document.addEventListener('DOMContentLoaded', wrapTilt); }
+
+  // ------------------------------------------------------------ Schnittstelle für das Spiel
+  window.m2diag = {
+    laufId: function () { return LAUF_ID; },
+    hiddenWithin: function (ms) { return document.hidden || teilenOffen || Date.now() - lastShown < ms; },
+    fromGodot: timed(function (json) {
+      var m; try { m = JSON.parse(json); } catch (e) { return; }
+      if (m.kind === 'event') { cur.events.push(clean(m.data, 158)); if (cur.events.length > MAX_EVENTS) cur.events.splice(0, cur.events.length - MAX_EVENTS); bald(); }
+      else if (m.kind === 'state') {
+        var jetzt = Date.now();
+        if (stalled) {
+          var dauer = jetzt - stalled;
+          ev('Spiel meldet sich wieder nach ' + Math.round(dauer / 1000) + ' s');
+          if (!stallKritisch) befund('performance', 'Spiel stand über ' + LEBENSZEICHEN_MS / 1000 + ' s', 'leistung',
+            'Kein Lebenszeichen des Spiels für ' + (dauer / 1000).toFixed(1) + ' s bei sichtbarer Seite, danach lief es weiter.',
+            { szenario: 'Lebenszeichen', schritt: clean((cur.state && cur.state.bereich) || phase, 120) },
+            { messwerte: { stillstand_ms: dauer } });
+          stalled = 0; stallKritisch = false;
+        }
+        lastState = jetzt;
+        names = (m.data.names || []).filter(function (x) { return typeof x === 'string' && x.length >= 2; });
+        delete m.data.names;
+        cur.state = m.data; phase = m.data.bereich || phase;
+        bald();
+      } else if (m.kind === 'befund') {
+        var b = m.data; b.lauf_id = LAUF_ID; b.build = BUILD;
+        if (!b.umgebung) b.umgebung = cur.lauf.umgebung;
+        addBefund(b, true);
+      }
+    }),
+    befund: befund,                               // für Tests und Beobachtungen
+    bericht: function (s) { return jsonl(s || cur); },
+    kurz: function (s) { return kurzAlle(s || cur); },
+    sessions: function () { return store.sessions; },
+    cost: function () { return cost; },
+    parseUA: parseUA                              // für Tests
+  };
+  if (prev && !prev.closed) ev('Vorherige Sitzung endete ohne Abmeldung um ' + uhr(prev.saved) + ' (Absturz, Neuladen oder vom System beendet)');
+  ev('Fehlerprotokoll aktiv (' + VERSION + ', Build ' + BUILD + ')');
+  speichern();
+
+  // ------------------------------------------------------------ Bericht und Kurzform
+  function laufZeile(s) {
+    var l = JSON.parse(JSON.stringify(s.lauf));
+    l.ende = iso(s === cur ? Date.now() : (s.saved || Date.now()));
+    l.ergebnis = { befunde: fehlerZahl(s), dauer_s: Math.round(((s === cur ? Date.now() : s.saved) - Date.parse(l.start)) / 1000) };
+    var g = s.state || {};
+    var h = ['Fehlerprotokoll ' + VERSION + ': Browser ' + cost.toFixed(0) + ' ms gesamt'];
+    if (g.frames) h.push('Fehlerprotokoll im Spiel: ' + (g.usec / Math.max(1, g.frames)).toFixed(1) + ' µs je Bild, höchstens ' + (g.max_usec / 1000).toFixed(1) + ' ms');
+    if (s.befunde.length > fehlerZahl(s)) h.push('Bildraten-Statistik: ' + (s.befunde.length - fehlerZahl(s)) + ' Messungen (keine Fehler, nicht in der Befundzahl)');
+    if (s !== cur && !s.closed) h.push('Sitzung endete ohne Abmeldung (Absturz, Neuladen oder vom System beendet)');
+    l.hinweise = h;
+    return l;
+  }
+  function jsonl(s) { return [laufZeile(s)].concat(s.befunde).map(function (o) { return JSON.stringify(o); }).join('\n') + '\n'; }
+  var ZT = { tilt_permission: ['Berechtigung', { granted: 'erteilt', denied: 'abgelehnt', pending: 'angefragt, keine Antwort', unknown: 'nicht angefragt', unsupported: 'nicht unterstützt' }],
+    tilt_events: ['Bewegungsereignisse', null], page_hidden: ['Seite im Hintergrund', { 'true': 'ja', 'false': 'nein' }], ort: ['Ort', null], menue: ['Menü', null],
+    level: ['Level', null], szene: ['Szene', null], busy: ['Bedienung gesperrt', { 'true': 'ja', 'false': 'nein' }], fortschritt: ['Fortschritt', null],
+    save_version: ['Spielstand-Version', null], save_pruefsumme: ['Spielstand-Prüfsumme', null], tilt_last_ms: ['Letztes Bewegungsereignis vor (ms)', null], tilt_anfragen: ['Freigabe-Anfragen', null] };
+  function pyStr(v) { return v === true ? 'True' : v === false ? 'False' : String(v); }
+  function zustandZeilen(z) {
+    var out = [];
+    for (var k in z) {
+      var v = z[k];
+      if (k === 'phase' || v === null || v === '') continue;
+      if (ZT[k]) {
+        var w = (k === 'tilt_events' && v === 0) ? 'nicht empfangen (0' + ('tilt_wartezeit_s' in z ? ' in ' + z.tilt_wartezeit_s + ' s' : '') + ')'
+          : (ZT[k][1] && (String(v) in ZT[k][1]) ? ZT[k][1][String(v)] : pyStr(v));
+        out.push(ZT[k][0] + ': ' + w);
+      } else if (k !== 'tilt_wartezeit_s') out.push(k + ': ' + pyStr(v));
+    }
+    if ('phase' in z) out.push('Letzter Zustand: ' + z.phase);
+    return out;
+  }
+  function fundText(f) {
+    var t = [];
+    if (f.datei) t.push(f.datei + (f.zeile ? ':' + f.zeile : ''));
+    if (f.funktion) t.push(f.funktion + '()');
+    if (f.szenario) t.push('Szenario ' + f.szenario + (f.schritt ? ', Schritt „' + f.schritt + '“' : ''));
+    return t.join(' · ');
+  }
+  function kurz(b, lauf) {
+    var z = [(istMessung(b) ? 'MESSUNG: ' : 'FEHLER: ') + b.titel, 'Schweregrad: ' + b.schweregrad, 'Bereich: ' + b.bereich, 'Aktion: ' + b.letzte_aktion].concat(zustandZeilen(b.zustand || {}));
+    if (b.erwartet) z.push('Erwartet: ' + b.erwartet);
+    if (b.tatsaechlich) z.push('Tatsächlich: ' + b.tatsaechlich);
+    if (b.messwerte) z.push('Messwerte: ' + Object.keys(b.messwerte).map(function (k) { return k + ' ' + b.messwerte[k]; }).join(', '));
+    if (b.bekannt) z.push('Bekannt: ' + b.bekannt);
+    z.push('Fundstelle: ' + fundText(b.fundstelle || {}));
+    var u = b.umgebung || (lauf && lauf.umgebung) || {};
+    var g = [u.system, u.browser].filter(Boolean).join(' ') || u.plattform || '';
+    z.push(['Build ' + b.build, g, b.zeit.slice(11, 19)].filter(Boolean).join(' · ') + ' · ID ' + (b.befund_id || befundId(b)));
+    return z.join('\n');
+  }
+  function kurzAlle(s) { return s.befunde.map(function (b) { return kurz(b, s.lauf); }).join('\n\n'); }
+
+  // ------------------------------------------------------------ Bedienfeld
+  function baueUI() {
+    var css = document.createElement('style');
+    css.textContent = [
+      '#m2d-btn{position:fixed;z-index:30;left:max(4px,env(safe-area-inset-left));top:50%;width:30px;height:30px;border-radius:50%;touch-action:none;',
+      'border:1.5px solid rgba(255,194,74,.55);background:rgba(11,14,38,.45);color:#ffc24a;font:900 15px/26px system-ui,sans-serif;text-align:center;padding:0;opacity:.6;-webkit-tap-highlight-color:transparent}',
+      '#m2d-btn.has{opacity:.95;background:rgba(120,20,20,.75)}#m2d-btn b{position:absolute;top:-6px;right:-8px;min-width:16px;height:16px;border-radius:8px;background:#ffc24a;color:#3a1d00;font:900 10px/16px system-ui;padding:0 3px}',
+      '#m2d-panel{position:fixed;inset:0;z-index:31;background:rgba(5,7,20,.72);display:flex;align-items:center;justify-content:center;font:14px/1.35 system-ui,-apple-system,sans-serif;color:#e8ebff}',
+      '#m2d-panel[hidden]{display:none}#m2d-card{width:min(520px,calc(100vw - 24px));max-height:calc(100vh - 24px);overflow:auto;background:#141838;border:1.5px solid rgba(255,194,74,.5);border-radius:16px;padding:14px 14px 12px;box-sizing:border-box}',
+      '#m2d-card h2{margin:0 0 2px;font-size:17px;color:#ffc24a}#m2d-card .sub{color:#aab0d8;font-size:12px;margin-bottom:8px}',
+      '#m2d-card .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}#m2d-card button{flex:1 1 auto;font:800 14px system-ui;padding:10px 12px;border-radius:11px;border:0;background:#2a3068;color:#e8ebff}',
+      '#m2d-card button.pri{background:#ffc24a;color:#3a1d00}#m2d-card button.warn{background:#5a1f2a}#m2d-list{margin:0;padding:0;list-style:none}',
+      '#m2d-list li{padding:7px 8px;border-radius:9px;background:#1d2250;margin-top:6px}#m2d-list .sg{display:inline-block;font:800 11px system-ui;padding:1px 7px;border-radius:7px;margin-right:6px}',
+      '.sg-kritisch{background:#b3263b}.sg-funktional{background:#b36b1f}.sg-performance{background:#2f6db3}.sg-darstellung{background:#5c3fb3}#m2d-list small{display:block;color:#aab0d8}',
+      '#m2d-obs{margin-top:10px;padding:10px;border-radius:10px;background:#1d2250}#m2d-obs[hidden]{display:none}#m2d-obs input{width:100%;box-sizing:border-box;font:15px system-ui;padding:9px;border-radius:9px;border:1px solid #3a4080;background:#0e1130;color:#fff;margin-top:6px}',
+      '#m2d-obs .sgs button{flex:1 1 40%;font-size:12px;padding:8px}#m2d-obs .sgs button.on{outline:2px solid #ffc24a}#m2d-msg{min-height:18px;margin-top:8px;color:#9fe0a8;font-size:13px}',
+      '#m2d-card .foot{color:#8088b8;font-size:11px;margin-top:8px}'
+    ].join('');
+    document.head.appendChild(css);
+    var btn = document.createElement('button'); btn.id = 'm2d-btn'; btn.type = 'button'; btn.setAttribute('aria-label', 'Fehlerprotokoll (Testversion)'); btn.textContent = '!';
+    var panel = document.createElement('div'); panel.id = 'm2d-panel'; panel.hidden = true;
+    panel.innerHTML = '<div id="m2d-card" role="dialog" aria-label="Fehlerprotokoll"><h2>Fehlerprotokoll · Testversion</h2><div class="sub" id="m2d-sub"></div>' +
+      '<div class="row" id="m2d-tabs"></div><ul id="m2d-list"></ul>' +
+      '<div id="m2d-obs" hidden><b>Beobachtung hinzufügen</b><div class="row sgs"></div><input id="m2d-text" maxlength="110" placeholder="Was ist passiert? (kurz, ohne Namen)">' +
+      '<div class="row"><button id="m2d-obs-ok" class="pri">Hinzufügen</button><button id="m2d-obs-no">Abbrechen</button></div></div>' +
+      '<div class="row"><button id="m2d-share" class="pri">Fehlerbericht teilen</button><button id="m2d-copy">Text kopieren</button></div>' +
+      '<div class="row"><button id="m2d-add">Beobachtung hinzufügen</button><button id="m2d-clear" class="warn">Protokoll löschen</button><button id="m2d-close">Schließen</button></div>' +
+      '<div id="m2d-msg"></div><div class="foot">Das Protokoll bleibt auf diesem Gerät. Es wird nur weitergegeben, wenn du „Fehlerbericht teilen“ oder „Text kopieren“ tippst. Keine Namen, keine Eingaben, keine Geräte- oder Ortskennungen.</div></div>';
+    document.body.appendChild(btn); document.body.appendChild(panel);
+    var $ = function (id) { return document.getElementById(id); };
+    var view = cur, sgWahl = 'funktional', clearArmed = false;
+    function stop(e) { e.stopPropagation(); }
+    ['touchstart', 'touchend', 'click', 'pointerdown', 'pointerup', 'mousedown', 'mouseup'].forEach(function (t) { btn.addEventListener(t, stop); panel.addEventListener(t, stop); });
+    function msg(t) { $('m2d-msg').textContent = t || ''; }
+    function render() {
+      var n = fehlerZahl(cur);                       // der Zähler am Knopf zeigt nur echte Befunde, keine Messungen
+      btn.className = n ? 'has' : ''; btn.innerHTML = '!' + (n ? '<b>' + n + '</b>' : '');
+      if (panel.hidden) return;
+      var tabs = $('m2d-tabs'); tabs.innerHTML = '';
+      if (prev) [[cur, 'Diese Sitzung'], [prev, 'Vorherige Sitzung']].forEach(function (p) {
+        var b = document.createElement('button'); b.textContent = p[1] + ' (' + fehlerZahl(p[0]) + ')'; if (p[0] === view) b.className = 'pri';
+        b.onclick = function () { view = p[0]; render(); }; tabs.appendChild(b);
+      });
+      $('m2d-sub').textContent = 'Build ' + BUILD + ' · seit ' + uhr(Date.parse(view.lauf.start)) + ' · ' + fehlerZahl(view) + ' Befunde · ' + (view.befunde.length - fehlerZahl(view)) + ' Messungen · ' + view.events.length + ' Ereignisse';
+      var ul = $('m2d-list'); ul.innerHTML = '';
+      if (!fehlerZahl(view)) { var e = document.createElement('li'); e.textContent = 'Keine Befunde. Fällt dir etwas auf, füge eine Beobachtung hinzu.'; ul.appendChild(e); }
+      view.befunde.slice().reverse().forEach(function (b) {
+        var li = document.createElement('li');
+        var s = document.createElement('span'); s.className = 'sg sg-' + b.schweregrad; s.textContent = istMessung(b) ? 'messung' : b.schweregrad; li.appendChild(s);
+        li.appendChild(document.createTextNode(b.titel + (b.wiederholungen > 1 ? ' (' + b.wiederholungen + '×)' : '')));
+        var sm = document.createElement('small'); sm.textContent = uhr(Date.parse(b.zeit)) + ' · ' + b.bereich; li.appendChild(sm);
+        ul.appendChild(li);
+      });
+      $('m2d-share').disabled = !view.befunde.length; $('m2d-copy').disabled = !view.befunde.length;
+    }
+    ui.update = render;
+    // Verschiebbar (falls er etwas verdeckt): ziehen = verschieben, tippen = öffnen. Lage bleibt auf dem Gerät gespeichert.
+    try { var pos = JSON.parse(localStorage.getItem('m2diag.pos') || 'null'); if (pos) { btn.style.left = (pos[0] * 100) + 'vw'; btn.style.top = (pos[1] * 100) + 'vh'; } } catch (e) {}
+    var drag = null;
+    btn.addEventListener('pointerdown', function (e) { drag = { x: e.clientX, y: e.clientY, moved: false }; try { btn.setPointerCapture(e.pointerId); } catch (x) {} });
+    btn.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) > 10) drag.moved = true;
+      if (drag.moved) { btn.style.left = Math.max(0, Math.min(innerWidth - 30, e.clientX - 15)) + 'px'; btn.style.top = Math.max(0, Math.min(innerHeight - 30, e.clientY - 15)) + 'px'; }
+    });
+    btn.addEventListener('pointerup', function () {
+      if (drag && drag.moved) { var r = btn.getBoundingClientRect(); try { localStorage.setItem('m2diag.pos', JSON.stringify([r.left / innerWidth, r.top / innerHeight])); } catch (e) {} }
+      else if (drag) oeffnen();
+      drag = null;
+    });
+    btn.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') oeffnen(); });
+    function oeffnen() { view = cur; panel.hidden = false; msg(''); clearArmed = false; $('m2d-clear').textContent = 'Protokoll löschen'; speichern(); render(); }
+    $('m2d-close').onclick = function () { panel.hidden = true; $('m2d-obs').hidden = true; };
+    var sgs = panel.querySelector('.sgs');
+    ['kritisch', 'funktional', 'performance', 'darstellung'].forEach(function (s) {
+      var b = document.createElement('button'); b.textContent = s; b.dataset.sg = s; b.onclick = function () { sgWahl = s; Array.prototype.forEach.call(sgs.children, function (c) { c.className = c.dataset.sg === s ? 'on' : ''; }); };
+      sgs.appendChild(b);
+    });
+    $('m2d-add').onclick = function () { $('m2d-obs').hidden = false; sgs.children[1].onclick(); $('m2d-text').value = ''; };
+    $('m2d-obs-no').onclick = function () { $('m2d-obs').hidden = true; };
+    $('m2d-obs-ok').onclick = function () {
+      var t = clean($('m2d-text').value.trim(), 110);
+      var typ = { kritisch: 'pruefung', funktional: 'pruefung', performance: 'leistung', darstellung: 'darstellung' }[sgWahl];
+      befund(sgWahl, t ? 'Beobachtung: ' + t : 'Beobachtung (' + sgWahl + ')', typ, 'Vom Spieler gemeldet: ' + (t || '(ohne Text)'),
+        { szenario: 'Beobachtung', schritt: clean((cur.state && cur.state.bereich) || phase, 120) });
+      $('m2d-obs').hidden = true; view = cur; msg('Beobachtung hinzugefügt.'); render();
+    };
+    $('m2d-copy').onclick = function () {
+      var text = kurzAlle(view) + '\n\n' + jsonl(view);
+      var done = function () { msg('Bericht kopiert.'); }, fail = function () { download(view); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fail); else fail();
+    };
+    function dateiname(s) { return 'mobbmobs2-fehlerbericht-' + BUILD + '-' + iso(Date.parse(s.lauf.start)).replace(/[-:]/g, '').slice(0, 13) + '.jsonl'; }
+    function download(s) {
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([jsonl(s)], { type: 'text/plain' })); a.download = dateiname(s);
+      document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+      msg('Bericht als Datei gespeichert.');
+    }
+    $('m2d-share').onclick = function () {
+      var s = view, text = kurzAlle(s), data = jsonl(s), file = null;
+      try { file = new File([data], dateiname(s), { type: 'text/plain' }); } catch (e) {}
+      // Während der Teilen-Dialog offen ist, steht das Spiel – das ist kein Bildstillstand (iPhone-Test P4e: 165 s gemeldet).
+      var zu = function () { teilenOffen = false; lastShown = Date.now(); };
+      var ok = function () { zu(); msg('Bericht geteilt.'); ev('Fehlerbericht geteilt'); };
+      var no = function (e) { zu(); if (e && e.name === 'AbortError') msg('Teilen abgebrochen.'); else $('m2d-copy').onclick(); };
+      if (navigator.share) teilenOffen = true;
+      if (file && navigator.canShare && navigator.canShare({ files: [file] })) navigator.share({ files: [file], title: 'Mobbmobs 2 – Fehlerbericht', text: text }).then(ok, no);
+      else if (navigator.share) navigator.share({ title: 'Mobbmobs 2 – Fehlerbericht', text: text + '\n\n' + data }).then(ok, no);
+      else $('m2d-copy').onclick();
+    };
+    $('m2d-clear').onclick = function () {
+      if (!clearArmed) { clearArmed = true; $('m2d-clear').textContent = 'Wirklich löschen?'; return; }
+      cur.befunde = []; cur.events = []; prev = null; store.sessions = [cur]; view = cur; speichern();
+      clearArmed = false; $('m2d-clear').textContent = 'Protokoll löschen'; msg('Protokoll gelöscht.'); render();
+    };
+    render();
+  }
+  if (document.body) baueUI(); else document.addEventListener('DOMContentLoaded', baueUI);
+})();
+</script>
+<script src="tilt_bridge.js?v=7ab8df3f48"></script>
+<script src="index.js?v=7ab8df3f48"></script>
+<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":28513392,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
+const engine = new Engine(GODOT_CONFIG);
+const fill = document.getElementById('fill'), state = document.getElementById('state'), note = document.getElementById('note'), loader = document.getElementById('loader'), bar = document.getElementById('bar');
+const missing = Engine.getMissingFeatures({ threads: false });
+if (typeof DecompressionStream === 'undefined') missing.push('DecompressionStream (iOS 16.4 oder neuer)');
+if (missing.length) {
+  note.hidden = false; note.textContent = 'Nicht unterstützt: ' + missing.join(', ');
+} else {
+  let loaded = false, started = false;
+  // Wächter: Hängt der Start nach dem Laden ungewöhnlich lange, Hinweis mit Startprotokoll und „Neu laden“ zeigen
+  // (nichts wird gelöscht). Der Start läuft im Hintergrund weiter; gelingt er noch, verschwindet der Hinweis.
+  const watchdog = setInterval(function () {
+    if (started || window.__storageStuck) { clearInterval(watchdog); return; }
+    if (loaded && performance.now() - loaded > 45000) {
+      clearInterval(watchdog);
+      startLog('Start dauert ungewöhnlich lange');
+      showStartProblem('Der Start dauert ungewöhnlich lange.', 'Dein Spielstand ist nicht verloren. Tippe auf „Neu laden“.');
+    }
+  }, 1000);
+  startLog('Build 7ab8df3f48');
+  engine.startGame({
+    onProgress: function (cur, total) {
+      if (total > 0) {
+        const p = Math.min(100, Math.round(cur / total * 100));
+        fill.style.width = 'calc(' + p + '% - 4px)'; bar.setAttribute('aria-valuenow', p);
+        state.textContent = p < 100 ? 'Lädt die Insel … ' + p + ' %' : 'Die Insel erwacht …';
+        if (p >= 100 && !loaded) { loaded = performance.now(); startLog('Spieldateien geladen'); }
+      }
+    },
+  }).then(function () {
+    started = true; startLog('Spiel gestartet');
+    note.hidden = true; loader.classList.remove('problem');
+    loader.classList.add('done');
+    setTimeout(function () { loader.remove(); }, 800);
+  }, function (err) {
+    startLog('Start fehlgeschlagen: ' + (err && err.message ? err.message : err)); console.error(err);
+    showStartProblem('Start fehlgeschlagen', String(err && err.message ? err.message : err));
+  });
+}
+</script>
+</body></html>
