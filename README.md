@@ -273,3 +273,13 @@ Gebaut aus Zweig `mobbmobs2/pflanzen-dichte` (`7f2b8df`). Alle anderen Ordner un
 Ordner `mobbmobs2-welt-35/`: verbindlicher Stand `f1e17ca` (Boden, Rinde, Pflanzen-Kacheln, Hälfte der Kleinpflanzen).
 Link: https://eddyeasy88.github.io/mobmobbs-play/mobbmobs2-welt-35/?dichte → Knopf „Prüfung Pflanzendichte Hälfte“.
 Alle anderen Ordner unverändert.
+
+## Duell – Testbuild AP-8b „fester Spieltakt“ (25.11.2026)
+
+Ordner `duell-spieltakt-8b/` (Build `a62d737c39`): Duell mit bildratenunabhängigem Spieltakt (Architekturpaket AP-8b).
+Link: https://eddyeasy88.github.io/mobmobbs-play/duell-spieltakt-8b/
+
+- Gebaut aus Branch `architektur/basis` (`cc01ab1`) des Hauptrepositorys.
+- Zum Prüfen: Steuerung, Rammwucht, Kollisionen, Trefferpause (jetzt kurzes Anhalten statt Zeitlupe), Fähigkeiten,
+  Spielgefühl, Bildrate.
+- Der Duell-Prototyp v0.1 (`duell-prototyp-v0.1/`) und alle anderen Ordner sind unverändert.
