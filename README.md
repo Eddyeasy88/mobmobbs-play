@@ -276,10 +276,11 @@ Alle anderen Ordner unverändert.
 
 ## Duell – Testbuild AP-8b „fester Spieltakt“ (25.11.2026)
 
-Ordner `duell-spieltakt-8b/` (Build `a62d737c39`): Duell mit bildratenunabhängigem Spieltakt (Architekturpaket AP-8b).
+Ordner `duell-spieltakt-8b/` (Build `31ab5bad80`; ersetzt `a62d737c39`, der beim Start abstürzte): Duell mit bildratenunabhängigem Spieltakt (Architekturpaket AP-8b).
 Link: https://eddyeasy88.github.io/mobmobbs-play/duell-spieltakt-8b/
 
-- Gebaut aus Branch `architektur/basis` (`cc01ab1`) des Hauptrepositorys.
+- Gebaut aus Branch `architektur/basis` (`cc01ab1`) des Hauptrepositorys; nur im Build: Art-Register prüft die beim
+  Export bewusst weggelassenen Quellmodelle und Silhouetten nicht als Pflicht (`asset_paths.json`, `required: false`).
 - Zum Prüfen: Steuerung, Rammwucht, Kollisionen, Trefferpause (jetzt kurzes Anhalten statt Zeitlupe), Fähigkeiten,
   Spielgefühl, Bildrate.
 - Der Duell-Prototyp v0.1 (`duell-prototyp-v0.1/`) und alle anderen Ordner sind unverändert.
