@@ -284,3 +284,14 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/duell-spieltakt-8b/
 - Zum Prüfen: Steuerung, Rammwucht, Kollisionen, Trefferpause (jetzt kurzes Anhalten statt Zeitlupe), Fähigkeiten,
   Spielgefühl, Bildrate.
 - Der Duell-Prototyp v0.1 (`duell-prototyp-v0.1/`) und alle anderen Ordner sind unverändert.
+
+## Duell – Release-Testbuild AP-8c „Export- und Release-Sicherheit“ (25.11.2026)
+
+Ordner `duell-exportsicher-8c/` (Build `c33188690c`): Duell aus dem dauerhaft korrigierten Architekturstand.
+Link: https://eddyeasy88.github.io/mobmobbs-play/duell-exportsicher-8c/
+
+- Gebaut aus Branch `architektur/basis` (`e63cd10`) mit dem regulären Bauskript, ohne jede Nachbearbeitung der
+  Exportdaten. Vor der Veröffentlichung automatisch geprüft (Paketinhalt, Start mit Release-Vorlage, Duell gegen den
+  Computer, Start im Browser).
+- Spielinhalt wie `duell-spieltakt-8b/` (gleicher Spieltakt, gleiche Trefferpause); neu ist nur die Startprüfung.
+- `duell-spieltakt-8b/`, `duell-prototyp-v0.1/` und alle anderen Ordner sind unverändert.
