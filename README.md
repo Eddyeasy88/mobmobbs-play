@@ -295,3 +295,16 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/duell-exportsicher-8c/
   Computer, Start im Browser).
 - Spielinhalt wie `duell-spieltakt-8b/` (gleicher Spieltakt, gleiche Trefferpause); neu ist nur die Startprüfung.
 - `duell-spieltakt-8b/`, `duell-prototyp-v0.1/` und alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-9 „Duell im gemeinsamen Spiel“ (26.11.2026)
+
+Ordner `spiel-duell-ap9/` (Build `5b00fd4efa`): das Hauptspiel (Virell) mit integriertem Kugelduell.
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-duell-ap9/
+
+- Gebaut aus Branch `architektur/basis` (`dbd91de`) mit dem regulären Bauskript, ohne Nachbearbeitung der Exportdaten;
+  vor der Veröffentlichung automatisch geprüft (Paketinhalt, Start, Insel → Duell → Insel, Start im Browser).
+- **Eigener Spielstand** (`user://mobbmobs2/test_ap9.json`): Der Testbuild beginnt neu und berührt den Spielstand von
+  Mobbmobs v0.1 (`mobbmobs3/`) nicht.
+- Duell: Menü (rechts oben) → Reiter „Duell · vorläufig“ → „Zum Duell“. Vorläufiger Zugang nur für den Test.
+- Neue Duellregel: gewonnen hat, wer zuerst fünf Runden gewinnt.
+- Alle anderen Ordner sind unverändert.
