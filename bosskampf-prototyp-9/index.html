@@ -1,0 +1,267 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no"><link rel="apple-touch-icon" href="loader_moosling.png"></head><body>
+<title>Mobbmobs – Bosskampf-Prototyp 9</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b0e26">
+<style>
+@font-face { font-family: "Baloo 2"; src: url("baloo2.ttf") format("truetype"); font-display: swap }
+@font-face { font-family: "Nunito"; src: url("nunito.ttf") format("truetype"); font-display: swap }
+:root { --bg: #0b0e26; --fg: #f4f6ff; --dim: rgba(225,230,255,.74); --turq: #2fd4c0; --violet: #8b5cf6; --gold: #ffc24a; color-scheme: dark }
+html, body { height: 100%; margin: 0; background: var(--bg); color: var(--fg); overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none }
+#canvas { display: block; width: 100%; height: 100%; outline: none }
+
+/* ---------------- Ladebildschirm Mobbmobs 2 (L-1): Cover statt Platzhaltergrafik ---------------- */
+#loader { position: fixed; inset: 0; z-index: 10; overflow: hidden; font-family: "Nunito", system-ui, -apple-system, sans-serif; background: #0b0e26; transition: opacity .7s ease }
+#loader.done { opacity: 0; pointer-events: none }
+#cover { position: absolute; inset: -2%; background: #0b0e26 url("cover_hoch.jpg?v=3597cca06f") 50% 62% / cover no-repeat; animation: drift 26s ease-in-out infinite alternate; transform-origin: 50% 70% }
+@media (min-aspect-ratio: 4/5) { #cover { background-image: url("cover_quer.jpg?v=3597cca06f"); background-position: 50% 72% } }
+@keyframes drift { from { transform: scale(1.0) } to { transform: scale(1.045) translateY(-0.6%) } }
+#sky { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(8,8,24,.78) 0%, rgba(8,8,24,.35) 9%, rgba(8,8,24,0) 16%) }
+.mote { position: absolute; border-radius: 50%; background: radial-gradient(circle, #fffbe0 0%, rgba(255,240,170,.55) 35%, rgba(255,240,170,0) 70%); animation: float linear infinite; mix-blend-mode: screen }
+@keyframes float { from { transform: translateY(0) } to { transform: translateY(-110vh) } }
+#top { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top, 0px) + 6vh); text-align: center; padding: 0 max(16px, env(safe-area-inset-left, 0px)) }
+#top h1 { margin: 0; white-space: nowrap; font: 800 clamp(54px, 16vw, 128px)/.95 "Baloo 2", system-ui, sans-serif; letter-spacing: .005em;
+  background: linear-gradient(180deg, #fffbe8 0%, #ffe28a 38%, #f6b23c 70%, #d9801c 100%); -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 3px 0 #6b3008) drop-shadow(0 6px 0 #3a1a06) drop-shadow(0 0 26px rgba(255,214,120,.45)) drop-shadow(0 14px 22px rgba(0,0,0,.55)) }
+#top p { margin: 10px 0 0; font: 800 clamp(14px, 3.6vw, 19px)/1.3 "Nunito", system-ui, sans-serif; color: #f3ecff; letter-spacing: .22em; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,.75), 0 0 18px rgba(80,60,160,.6) }
+#bottom { position: absolute; left: 0; right: 0; bottom: calc(env(safe-area-inset-bottom, 0px) + 2.4vh); display: grid; gap: 8px; justify-items: center; padding: 0 max(16px, env(safe-area-inset-left, 0px)) }
+#bar { position: relative; width: min(360px, 74vw); height: 18px; border-radius: 12px; background: linear-gradient(180deg, #2a1608, #3d220e); box-shadow: inset 0 0 0 2px #8a5a2a, inset 0 2px 0 3px rgba(0,0,0,.35), 0 0 0 2px #2a1608, 0 8px 22px rgba(0,0,0,.55); overflow: hidden }
+#fill { position: absolute; inset: 3px auto 3px 3px; width: 0; border-radius: 8px; background: linear-gradient(90deg, #22b8a6, #7ef0df 55%, #ffe28a); box-shadow: 0 0 14px rgba(126,240,223,.85); transition: width .25s ease }
+#fill::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.6) 50%, transparent 70%); animation: shine 1.6s linear infinite }
+@keyframes shine { from { transform: translateX(-100%) } to { transform: translateX(100%) } }
+#state { font: 800 14px/1.2 "Nunito", system-ui, sans-serif; color: #f1ecff; letter-spacing: .06em; text-shadow: 0 2px 8px rgba(0,0,0,.8); font-variant-numeric: tabular-nums }
+#note { color: #ffd2cb; font: 700 15px/1.4 system-ui, sans-serif; max-width: 34ch; text-align: center }
+#loader.problem #note { background: rgba(11,14,38,.92); border: 1.5px solid rgba(255,194,74,.55); border-radius: 18px; padding: 16px 18px; max-height: 60vh; overflow: auto }
+#loader.problem #note b { display: block; color: #ffc24a; font-size: 17px }
+@media (prefers-reduced-motion: reduce) { #cover, .mote, #fill::after { animation: none } }
+</style>
+<canvas id="canvas" tabindex="0">Dein Browser unterstützt kein WebGL 2.</canvas>
+<div id="loader" role="status" aria-live="polite">
+  <div id="cover" role="img" aria-label="Der Weltbaum mit dem Wurzeltor, davor Grollfels, Nibbit, Moosling und Flimm"></div>
+  <div id="sky"></div>
+  <div id="top"><h1>Mobbmobs</h1><p id="sub">Die Insel unter dem Weltbaum</p></div>
+  <div id="bottom">
+    <div id="bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="fill"></div></div>
+    <div id="state">Lädt …</div>
+    <div id="note" hidden></div>
+  </div>
+</div>
+<script>
+(function () { var B = '3597cca06f'; try { fetch('version.json?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+  if (!j || !j.build || j.build === B) return;
+  var u = new URL(location.href); if (u.searchParams.get('v') === j.build) return;
+  u.searchParams.set('v', j.build); location.replace(u.toString());
+}).catch(function () {}); } catch (e) {} })();
+</script>
+<script>
+// Mobbmobs 2 – Spieltakt im Browser (20.11.2026): Die Spielschleife läuft mit höchstens 30 Durchläufen je Sekunde.
+//
+// Im Browser gibt requestAnimationFrame den Takt der Engine vor (meist 60/s); eine Obergrenze der Engine greift dort
+// nicht. Dieser Baustein reicht nur so viele Aufrufe weiter, wie der Spieltakt vorsieht. Damit läuft die Spielschleife
+// der Engine 30-mal je Sekunde: Spiellogik und Zeichnen je einmal pro Durchlauf – statt 60-mal zu rechnen und nur
+// jedes zweite Bild zu zeigen.
+// Die Physik bleibt bei 60 festen Schritten je Sekunde (M2FrameRate.PHYSICS_HZ, beabsichtigt): Die Engine rechnet sie
+// innerhalb eines Durchlaufs nach, also zwei Schritte je Durchlauf. Der Baustein ändert nur, wie oft die Schleife läuft.
+// Zeitgesteuert: Auf einem 120-Hz-Bildschirm wird jeder vierte Aufruf weitergereicht, auf einem langsameren Gerät jeder.
+// Abschalten zum Vergleich: ?darstellung=voll (wie die übrigen Sparmaßnahmen).
+//
+// m2TaktMaker(fps, raf, caf) liefert {request, cancel}; getrennt vom Einbau, damit es ohne Browser prüfbar ist.
+function m2TaktMaker(fps, raf, caf) {
+  var period = 1000 / fps, tol = period * 0.25, last = -1e12, next = 1, open = {};
+  function request(cb) {
+    var id = next++;
+    function tick(ts) {
+      if (!(id in open)) return;
+      if (ts - last >= period - tol) {
+        delete open[id];
+        // Rest mitnehmen, damit der Mittelwert stimmt; nach einer Pause nicht nachholen
+        last = (ts - last > 2 * period) ? ts : last + period;
+        cb(ts);
+      } else {
+        open[id] = raf(tick);
+      }
+    }
+    open[id] = raf(tick);
+    return id;
+  }
+  function cancel(id) {
+    if (id in open) { caf(open[id]); delete open[id]; }
+  }
+  return { request: request, cancel: cancel };
+}
+if (typeof window !== 'undefined') {
+  (function () {
+    var voll = /(^|[?&])darstellung=voll(&|$)/.test(window.location.search);
+    window.M2_TAKT = voll ? 0 : 30;
+    if (voll || typeof window.requestAnimationFrame !== 'function') { window.M2_TAKT = 0; return; }
+    var t = m2TaktMaker(window.M2_TAKT, window.requestAnimationFrame.bind(window), window.cancelAnimationFrame.bind(window));
+    window.requestAnimationFrame = t.request;
+    window.cancelAnimationFrame = t.cancel;
+  })();
+}
+if (typeof module !== 'undefined') module.exports = { m2TaktMaker: m2TaktMaker };
+</script>
+<script>
+// Ladebildschirm (L-1): echte Fortschrittsanzeige (onProgress der Engine), keine künstliche Wartezeit, keine Tipps.
+(function () {
+  const sky = document.getElementById('sky');
+  for (let i = 0; i < 22; i++) {
+    const m = document.createElement('span'); m.className = 'mote';
+    const s = 3 + Math.random() * 6; m.style.width = m.style.height = s + 'px';
+    m.style.left = (Math.random() * 100) + '%'; m.style.top = (55 + Math.random() * 60) + '%';
+    m.style.animationDuration = (12 + Math.random() * 14) + 's'; m.style.animationDelay = (-Math.random() * 24) + 's';
+    m.style.opacity = .3 + Math.random() * .45; sky.appendChild(m);
+  }
+})();
+</script>
+<script>
+// Godot fordert index.wasm und index.pck an; ausgeliefert werden komprimierte Fassungen.
+(function () {
+  const realFetch = window.fetch.bind(window);
+  const map = { 'index.wasm': ['engine.gz.wasm', 'application/wasm'], 'index.pck': ['data.gz.wasm', 'application/octet-stream'] };
+  window.fetch = function (input, init) {
+    const url = typeof input === 'string' ? input : (input && input.url) || '';
+    for (const k in map) {
+      if (url.split('?')[0].endsWith(k)) {
+        // ?v=<Build>: jede Veröffentlichung hat eigene Adressen, damit Safari nie alte (oder halb geladene)
+        // Spieldateien aus dem Zwischenspeicher mit einer neuen Seite mischt.
+        startLog('Lade ' + map[k][0]);
+        return realFetch(map[k][0] + '?v=3597cca06f', { cache: 'no-cache' }).then(function (r) {
+          if (!r.ok) throw new Error('Datei fehlt: ' + map[k][0] + ' (HTTP ' + r.status + ')');
+          return new Response(r.body.pipeThrough(new DecompressionStream('gzip')), { status: 200, headers: { 'Content-Type': map[k][1] } });
+        });
+      }
+    }
+    return realFetch(input, init);
+  };
+})();
+</script>
+<script>
+// ---------------- Startprotokoll und Absicherung des Spielstand-Speichers ----------------
+// Ursache des Start-Hängers (iPhone-Test 12.11.2026): Godot öffnet beim Start die IndexedDB des Browsers (dort liegt
+// user://, also der Spielstand) und wartet ohne Zeitlimit auf die Antwort. iOS-Safari beantwortet diese Anfrage nach
+// dem Zurückkehren aus dem Hintergrund manchmal nie (bekannter WebKit-Fehler: Verbindung zum IndexedDB-Server verloren)
+// – der Ladebildschirm blieb dann für immer bei „Die Insel erwacht …“ stehen.
+// Abhilfe: Jede Öffnungsanfrage bekommt ein Zeitlimit und wird mehrfach neu gestellt; antwortet der Speicher gar nicht,
+// startet das Spiel NICHT ohne Spielstand (sonst sähe es so aus, als wäre er weg), sondern zeigt einen Hinweis mit
+// „Neu laden“. Der gespeicherte Stand wird dabei nie verändert oder gelöscht.
+window.__startLog = [];
+window.startLog = function (msg) {
+  const t = (performance.now() / 1000).toFixed(1);
+  window.__startLog.push(t + ' s  ' + msg);
+  console.log('[Start] ' + msg);
+};
+startLog('Seite geladen (' + navigator.userAgent.replace(/^.*?\(([^)]*)\).*$/, '$1') + ')');
+window.showStartProblem = function (title, text) {
+  document.getElementById('loader').classList.add('problem');
+  const note = document.getElementById('note');
+  note.hidden = false;
+  note.innerHTML = '';
+  const b = document.createElement('b'); b.textContent = title; note.appendChild(b);
+  const p = document.createElement('div'); p.textContent = text; p.style.marginTop = '6px'; note.appendChild(p);
+  const btn = document.createElement('button'); btn.textContent = 'Neu laden';
+  btn.style.cssText = 'margin-top:12px;font:800 17px "Nunito",system-ui,sans-serif;padding:12px 26px;border:0;border-radius:14px;background:#ffc24a;color:#3a1d00';
+  btn.onclick = function () { location.reload(); };
+  note.appendChild(btn);
+  const log = document.createElement('details'); log.style.cssText = 'margin-top:10px;text-align:left;color:#cfd5ff;font:12px/1.4 ui-monospace,monospace';
+  const sum = document.createElement('summary'); sum.textContent = 'Startprotokoll'; log.appendChild(sum);
+  const pre = document.createElement('pre'); pre.style.whiteSpace = 'pre-wrap'; pre.textContent = window.__startLog.join('\n'); log.appendChild(pre);
+  note.appendChild(log);
+};
+(function () {
+  if (typeof indexedDB === 'undefined') return;
+  const realOpen = indexedDB.open.bind(indexedDB);
+  const TRY_MS = 2500, TRIES = 4;
+  indexedDB.open = function (name, version) {
+    // Stellvertreter-Anfrage: Godot (Emscripten IDBFS) setzt onsuccess/onerror/onupgradeneeded darauf.
+    const fake = { result: undefined, error: null, transaction: null, readyState: 'pending', onsuccess: null, onerror: null, onupgradeneeded: null, onblocked: null };
+    let attempt = 0, done = false, timer = null;
+    function ev(target) { return { target: target, preventDefault: function () {}, stopPropagation: function () {} }; }
+    function tryOpen() {
+      attempt++;
+      const mine = attempt;
+      startLog('Spielstand-Speicher öffnen (' + name + ', Versuch ' + mine + ')');
+      let req;
+      try { req = version === undefined ? realOpen(name) : realOpen(name, version); }
+      catch (e) { done = true; fake.error = e; fake.readyState = 'done'; if (fake.onerror) fake.onerror(ev(fake)); return; }
+      req.onupgradeneeded = function (e) {
+        if (done) return;
+        fake.result = req.result; fake.transaction = req.transaction;
+        startLog('Spielstand-Speicher wird eingerichtet');
+        if (fake.onupgradeneeded) fake.onupgradeneeded(ev(fake));
+      };
+      req.onsuccess = function () {
+        if (done) { try { req.result.close(); } catch (e) {} return; }   // verspätete Antwort eines älteren Versuchs
+        done = true; clearTimeout(timer);
+        fake.result = req.result; fake.readyState = 'done';
+        startLog('Spielstand-Speicher bereit (Versuch ' + mine + ')');
+        if (fake.onsuccess) fake.onsuccess(ev(fake));
+      };
+      req.onerror = function (e) {
+        if (done) return;
+        done = true; clearTimeout(timer);
+        fake.error = req.error; fake.readyState = 'done';
+        startLog('Spielstand-Speicher Fehler: ' + (req.error && req.error.message));
+        if (e && e.preventDefault) e.preventDefault();
+        if (fake.onerror) fake.onerror(ev(fake));
+      };
+      req.onblocked = function () { startLog('Spielstand-Speicher blockiert (anderer Tab?)'); };
+      timer = setTimeout(function () {
+        if (done) return;
+        if (attempt < TRIES) { startLog('Spielstand-Speicher antwortet nicht – neuer Versuch'); tryOpen(); return; }
+        startLog('Spielstand-Speicher antwortet nicht – Start angehalten');
+        window.__storageStuck = true;
+        showStartProblem('Der Speicher deines Browsers antwortet gerade nicht.',
+          'Dein Spielstand ist nicht verloren. Tippe auf „Neu laden“. Hilft das nicht: Safari ganz schließen ' +
+          '(im App-Umschalter nach oben wischen) und die Seite neu öffnen.');
+      }, TRY_MS);
+    }
+    tryOpen();
+    return fake;
+  };
+})();
+</script>
+<script src="tilt_bridge.js?v=3597cca06f"></script>
+<script src="index.js?v=3597cca06f"></script>
+<script>
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":10958496,"index.wasm":43699190},"focusCanvas":true,"gdextensionLibs":[]};
+const engine = new Engine(GODOT_CONFIG);
+const fill = document.getElementById('fill'), state = document.getElementById('state'), note = document.getElementById('note'), loader = document.getElementById('loader'), bar = document.getElementById('bar');
+const missing = Engine.getMissingFeatures({ threads: false });
+if (typeof DecompressionStream === 'undefined') missing.push('DecompressionStream (iOS 16.4 oder neuer)');
+if (missing.length) {
+  note.hidden = false; note.textContent = 'Nicht unterstützt: ' + missing.join(', ');
+} else {
+  let loaded = false, started = false;
+  // Wächter: Hängt der Start nach dem Laden ungewöhnlich lange, Hinweis mit Startprotokoll und „Neu laden“ zeigen
+  // (nichts wird gelöscht). Der Start läuft im Hintergrund weiter; gelingt er noch, verschwindet der Hinweis.
+  const watchdog = setInterval(function () {
+    if (started || window.__storageStuck) { clearInterval(watchdog); return; }
+    if (loaded && performance.now() - loaded > 45000) {
+      clearInterval(watchdog);
+      startLog('Start dauert ungewöhnlich lange');
+      showStartProblem('Der Start dauert ungewöhnlich lange.', 'Dein Spielstand ist nicht verloren. Tippe auf „Neu laden“.');
+    }
+  }, 1000);
+  startLog('Build 3597cca06f');
+  engine.startGame({
+    onProgress: function (cur, total) {
+      if (total > 0) {
+        const p = Math.min(100, Math.round(cur / total * 100));
+        fill.style.width = 'calc(' + p + '% - 4px)'; bar.setAttribute('aria-valuenow', p);
+        state.textContent = p < 100 ? 'Lädt die Insel … ' + p + ' %' : 'Die Insel erwacht …';
+        if (p >= 100 && !loaded) { loaded = performance.now(); startLog('Spieldateien geladen'); }
+      }
+    },
+  }).then(function () {
+    started = true; startLog('Spiel gestartet');
+    note.hidden = true; loader.classList.remove('problem');
+    loader.classList.add('done');
+    setTimeout(function () { loader.remove(); }, 800);
+  }, function (err) {
+    startLog('Start fehlgeschlagen: ' + (err && err.message ? err.message : err)); console.error(err);
+    showStartProblem('Start fehlgeschlagen', String(err && err.message ? err.message : err));
+  });
+}
+</script>
+</body></html>
