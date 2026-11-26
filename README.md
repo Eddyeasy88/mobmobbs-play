@@ -308,3 +308,19 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-duell-ap9/
 - Duell: Menü (rechts oben) → Reiter „Duell · vorläufig“ → „Zum Duell“. Vorläufiger Zugang nur für den Test.
 - Neue Duellregel: gewonnen hat, wer zuerst fünf Runden gewinnt.
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-10 „Bosskampf im gemeinsamen Spiel“ (26.11.2026)
+
+Ordner `spiel-boss-ap10/` (Build `0b1cf46545`): das Hauptspiel (Virell) mit integriertem Bosskampf (Kampf aus dem
+freigegebenen Bosskampf-Prototyp 9, unverändert).
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-boss-ap10/
+
+- Gebaut aus Branch `architektur/basis` (`2aa7028`) mit dem regulären Bauskript, ohne Nachbearbeitung der Exportdaten;
+  vor der Veröffentlichung geprüft (Start im Browser, Insel → Bosskampf → Insel im Release-Export, Start-Spielstand).
+- **Eigener Spielstand** (`user://mobbmobs2/test_ap10.json`), berührt weder Mobbmobs v0.1 noch die AP-9-Testversion.
+- **Start-Spielstand „Bosskampf frei“:** Beim ersten Start beginnt die Testversion mit drei voll entwickelten
+  Mobbmobs und allen drei schweren Labyrinthen geschafft (Story gesehen, noch kein Bosssieg).
+- Bosskampf: Menü (rechts oben) → Reiter „Bosskampf · vorläufig“ → „Zum Bosskampf“. Vorläufiger Zugang nur für den Test.
+- Bossprüfung: den Hüter mit jedem der drei Mobbmobs einmal als aktivem Mobbmob besiegen (Reihenfolge frei); danach
+  Abschlussszene und nächster Zyklus. Herzen = Leben der Mobbmobs; ohne Leben heilt der Lebensquell auf der Insel.
+- Alle anderen Ordner sind unverändert.
