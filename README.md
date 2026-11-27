@@ -324,3 +324,13 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-boss-ap10/
 - Bossprüfung: den Hüter mit jedem der drei Mobbmobs einmal als aktivem Mobbmob besiegen (Reihenfolge frei); danach
   Abschlussszene und nächster Zyklus. Herzen = Leben der Mobbmobs; ohne Leben heilt der Lebensquell auf der Insel.
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-10, Korrektur 1 (27.11.2026)
+
+Ordner `spiel-boss-ap10-k1/` (Build `8906520711`, aus `architektur/basis` `606497e`): wie `spiel-boss-ap10/`, nur mit
+behobenem Menüfehler (zweite Reiterreihe „Bosskampf · vorläufig“, „Einstellungen“, „Story“ auf dem iPhone nicht
+antippbar). Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-boss-ap10-k1/
+
+- Gleicher eigener Spielstand wie `spiel-boss-ap10/` (`user://mobbmobs2/test_ap10.json`): ein dort begonnener Testfortschritt
+  läuft weiter; ohne Spielstand Start mit „Bosskampf frei“.
+- `spiel-boss-ap10/` und alle anderen Ordner sind unverändert.
