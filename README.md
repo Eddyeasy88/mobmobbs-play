@@ -381,3 +381,15 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-modi-ap11/
 - Spielregeln, Balancing und Optik unverändert; neu fühlbar ist nur das Ladebild auf dem Hin- und Rückweg von Duell und Bosskampf.
 - GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft (CI-4).
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-11 Ergänzungen und Navigationsprototyp (27.11.2026)
+
+Ordner `spiel-navigation-ap11/` (Build `75fa8c5736`, aus `architektur/basis` `a02bbf1`): Hauptspiel mit
+Navigationsprototyp (Kamerastationen um den Weltbaum; Wischen oder Pfeile unten, „Freie Kamera“ zum Vergleich).
+Dazu: Labyrinth entlädt die Insel (M-1), Bosskampf als Knoten auf der Wurzelkarte (M-2).
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-navigation-ap11/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap11n.json`; ohne Spielstand Start mit „Bosskampf frei“.
+- Spielregeln, Balancing und Optik unverändert; Navigationsleiste und Bossknoten sind vorläufige Gestaltung.
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft (CI-4).
+- Alle anderen Ordner sind unverändert.
