@@ -369,3 +369,15 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-labyrinth-ap10e/
   Fähigkeiten laufen im Physiktakt und sind bei 30 Bildern/s bis zu 0,1 s kürzer als bisher (jetzt so lang wie bei 60).
 - GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft (CI-4).
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-11 (27.11.2026)
+
+Ordner `spiel-modi-ap11/` (Build `ef4533325a`, aus `architektur/basis` `7fb49a4`): Hauptspiel mit der gemeinsamen
+Spielmodusverwaltung. Kugelduell und Bosskampf geben die Insel frei; die Rückkehr baut sie hinter einem kurzen Ladebild
+neu auf, am selben Ort.
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-modi-ap11/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap11.json`; ohne Spielstand Start mit „Bosskampf frei“.
+- Spielregeln, Balancing und Optik unverändert; neu fühlbar ist nur das Ladebild auf dem Hin- und Rückweg von Duell und Bosskampf.
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft (CI-4).
+- Alle anderen Ordner sind unverändert.
