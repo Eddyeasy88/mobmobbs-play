@@ -345,3 +345,15 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-boss-ap10b/
 - Neu nur technisch: Beim Verlassen gibt der Bosskampf seine Zwischenspeicher frei; beim nächsten Bosskampf erscheint
   deshalb wieder kurz der Ladebildschirm.
 - `spiel-boss-ap10/`, `spiel-boss-ap10-k1/` und alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-10c/AP-10d (27.11.2026)
+
+Ordner `spiel-boss-ap10cd/` (Build `43b3c2f229`, aus `architektur/basis` `1e3a83c`): Hauptspiel mit bereinigtem
+Bossmodul (AP-10c) und gemeinsamem, bildratenunabhängigem Spieltakt für Kugelduell und Bosskampf (AP-10d).
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-boss-ap10cd/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap10cd.json`; ohne Spielstand Start mit „Bosskampf frei“.
+- Spielgefühl soll gleich sein wie `spiel-boss-ap10b/` (Bosskampf) bzw. das Duell aus AP-9; Fähigkeiten im Bosskampf
+  laufen jetzt im Physiktakt (feiner, wie im Duell).
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft (CI-4).
+- Alle anderen Ordner sind unverändert.
