@@ -357,3 +357,15 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-boss-ap10cd/
   laufen jetzt im Physiktakt (feiner, wie im Duell).
 - GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft (CI-4).
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-10e (27.11.2026)
+
+Ordner `spiel-labyrinth-ap10e/` (Build `3572c3c644`, aus `architektur/basis` `e087ed2`): Hauptspiel mit dem Labyrinth
+im gemeinsamen, bildratenunabhängigen Spieltakt (wie Kugelduell und Bosskampf seit AP-10d).
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-labyrinth-ap10e/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap10e.json`; ohne Spielstand Start mit „Bosskampf frei“ (wie AP-10c/AP-10d).
+- Spielregeln, Level, Balancing und Optik unverändert. Steuerung, Kugel und Stürze sind gleich; die Inszenierungen der
+  Fähigkeiten laufen im Physiktakt und sind bei 30 Bildern/s bis zu 0,1 s kürzer als bisher (jetzt so lang wie bei 60).
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft (CI-4).
+- Alle anderen Ordner sind unverändert.
