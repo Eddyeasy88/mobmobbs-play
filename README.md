@@ -334,3 +334,14 @@ antippbar). Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-boss-ap10-k1/
 - Gleicher eigener Spielstand wie `spiel-boss-ap10/` (`user://mobbmobs2/test_ap10.json`): ein dort begonnener Testfortschritt
   läuft weiter; ohne Spielstand Start mit „Bosskampf frei“.
 - `spiel-boss-ap10/` und alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-10b (27.11.2026)
+
+Ordner `spiel-boss-ap10b/` (Build `bc858e092a`, aus `architektur/basis` `c16135a`): Hauptspiel mit dem eigenständigen
+Bosskampfmodul (ohne Duellszenen-Vererbung, Komposition). Spielerisch und optisch wie `spiel-boss-ap10-k1/`.
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-boss-ap10b/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap10b.json`; ohne Spielstand Start mit „Bosskampf frei“.
+- Neu nur technisch: Beim Verlassen gibt der Bosskampf seine Zwischenspeicher frei; beim nächsten Bosskampf erscheint
+  deshalb wieder kurz der Ladebildschirm.
+- `spiel-boss-ap10/`, `spiel-boss-ap10-k1/` und alle anderen Ordner sind unverändert.
