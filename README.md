@@ -406,3 +406,17 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-navigation-r2-ap11/
 - Spielregeln und Balancing unverändert; Navigationsleiste vorläufig; Klänge der Sequenz Platzhalter.
 - GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft.
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – D2-UI-Prototyp AP-12 (28.11.2026)
+
+Ordner `ui-d2-prototyp-ap12/` (Build `8ff50e0df4`, aus `architektur/basis` `4aa8a51`): separater Oberflächen-Prototyp
+der Designsprache D2 „Kristallwurzel“ mit den freigegebenen Layout- (L-1 bis L-8) und Interaktionsregeln (I-1 bis I-8).
+Bereiche: Insel (Stationsnavigation, Ortstafeln), Tafeln und Menüs, Geschichte (Dialog), Labyrinth, Kugelduell,
+Bosskampf, Fähigkeitsknopf-Labor, Pausenmenü mit Fähigkeitsübersicht.
+Link: https://eddyeasy88.github.io/mobmobbs-play/ui-d2-prototyp-ap12/
+
+- Kein Spielstand; Einstellungen (Haptik, Restzeit-Zahl, Ton) in `user://d2_ui_einstellungen.cfg`.
+- Fähigkeitswerte unverändert aus den Spieldaten; Hintergründe sind unveränderte Spielaufnahmen.
+- Größen vorläufig (L-7), endgültig nach diesem iPhone-Test. Haptik im Browser auf dem iPhone nur eingeschränkt.
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal geprüft (Tests, Projektprüfung, Exportprüfung d2_ui).
+- Alle anderen Ordner sind unverändert.
