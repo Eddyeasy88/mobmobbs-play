@@ -393,3 +393,16 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-navigation-ap11/
 - Spielregeln, Balancing und Optik unverändert; Navigationsleiste und Bossknoten sind vorläufige Gestaltung.
 - GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft (CI-4).
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Testbuild AP-11 Navigation R2 und Bosszugang (28.11.2026)
+
+Ordner `spiel-navigation-r2-ap11/` (Build `c0edb123a6`, aus `architektur/basis` `6cda0ad`): Hauptspiel mit
+überarbeiteten Kamerastationen, Navigation nur auf der frei betrachtbaren Insel, Kristall am Zusammenlauf als
+Bosszugang und Freischaltungssequenz in der tatsächlichen Reihenfolge der schweren Labyrinthe.
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-navigation-r2-ap11/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap11r2.json`; ohne Spielstand Start „vor der Bossfreischaltung“
+  (alle drei voll entwickelt, kein schweres Labyrinth geschafft).
+- Spielregeln und Balancing unverändert; Navigationsleiste vorläufig; Klänge der Sequenz Platzhalter.
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal vollständig geprüft.
+- Alle anderen Ordner sind unverändert.
