@@ -449,3 +449,20 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-kristallgewaechs-ap12/
 - Spielregeln, Fähigkeiten, Balancing und 3D-Welt unverändert; Knopfgrößen vorläufig (L-7).
 - GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal geprüft (Tests, Referenz, Export aller Profile).
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Ressourcenverwaltung und Kugeloptik je Form, AP-13 (28.11.2026)
+
+Ordner `spiel-ressourcen-ap13/` (Build `df97e6d3bd`, aus `architektur/basis` `cf5193d`): vollständig spielbares
+Hauptspiel mit „Kristallgewächs“ als Standard und der neuen Ressourcenverwaltung (Laden – Nutzen – Freigeben).
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-ressourcen-ap13/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap13.json`, Start „Bosskampf frei“ (alle Bereiche erreichbar).
+- Neu: Insel, Einrichtungen und Modi geben ihre Bilder beim Wechsel frei; Schriftatlanten werden beim Wechsel geleert;
+  Wurzelkartenbild nur bei geöffneter Karte.
+- Neu: eigene Kugeloptik je Entwicklungsform (9 Formen; Grundformen unverändert) in Labyrinth, Duell und Bosskampf.
+- Nur in diesem Testbuild: Speicherzeile am unteren Rand (Texturen, Videospeicher, WebAssembly-Speicher als Höchststand,
+  Dauer des letzten Wechsels).
+- Spielregeln, Fähigkeiten, Balancing, Physik und Designsprache unverändert.
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal geprüft (Tests, Referenz mit Speicherwächter,
+  Export aller Profile, Browserstart).
+- Alle anderen Ordner sind unverändert.
