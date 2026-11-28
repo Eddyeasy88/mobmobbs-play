@@ -420,3 +420,17 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/ui-d2-prototyp-ap12/
 - Größen vorläufig (L-7), endgültig nach diesem iPhone-Test. Haptik im Browser auf dem iPhone nur eingeschränkt.
 - GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal geprüft (Tests, Projektprüfung, Exportprüfung d2_ui).
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Hauptspiel im Stil D2 „Kristallgewächs“ AP-12 (28.11.2026)
+
+Ordner `spiel-stil-d2-ap12/` (Build `fc10f87191`, aus `architektur/basis` `bd82b05`): das aktuelle Hauptspiel mit der
+freigegebenen Designrichtung (Entwurf B „Kristallgewächs“) – Inselnavigation und Wurzeltor, Währung, Menü und
+Infotafeln, Dialog, Labyrinth, Kugelduell und Bosskampf, alles spielbar in der echten Spielwelt.
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-stil-d2-ap12/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap12d2.json`, Start „Bosskampf frei“ (alle Bereiche erreichbar).
+- Spielregeln, Fähigkeiten, Balancing und 3D-Welt unverändert; nur die Oberfläche (Stil `d2`, Bauparameter `M2_UI_STIL`).
+- Fähigkeitsknöpfe im Daumenbogen (L-1), Partner links unten (L-2), Abklingzeit ohne Zahl (I-1); Größen vorläufig (L-7).
+- Vergleichsstand ohne den neuen Stil: `spiel-navigation-r2-ap11/`.
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal geprüft (Tests, Projektprüfung, Webstart).
+- Alle anderen Ordner sind unverändert.
