@@ -434,3 +434,18 @@ Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-stil-d2-ap12/
 - Vergleichsstand ohne den neuen Stil: `spiel-navigation-r2-ap11/`.
 - GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal geprüft (Tests, Projektprüfung, Webstart).
 - Alle anderen Ordner sind unverändert.
+
+## Mobbmobs – Kristallgewächs, AP-12 Abschluss (28.11.2026)
+
+Ordner `spiel-kristallgewaechs-ap12/` (Build `60ec264b8b`, aus `architektur/basis` `92c9abf`): vollständig spielbares
+Hauptspiel in der verbindlich freigegebenen Designsprache „Kristallgewächs“ – zur abschließenden Beurteilung von AP-12.
+Link: https://eddyeasy88.github.io/mobmobbs-play/spiel-kristallgewaechs-ap12/
+
+- Eigener Spielstand `user://mobbmobs2/test_ap12k.json`, Start „Bosskampf frei“ (alle Bereiche erreichbar).
+- Neu gegenüber `spiel-stil-d2-ap12/`: transparentere Flächen (zentral in `data/content/ui/d2_stil.json`), engerer
+  Daumenbogen, Pause nach L-3 in Duell und Bosskampf, Labyrinth-Fähigkeit rechts unten (L-4), Fähigkeitsnamen nur bei
+  den ersten drei Einsätzen (I-8, Übersicht im Pausenmenü), Haptik und Restzeit-Zahl im Menü schaltbar, alle übrigen
+  Oberflächen umgestellt (Bossaufgabe/Siegel, Labyrinth-Kopfzeile, Lebensquell, Mobbodex, Sternenarchiv, Kammer …).
+- Spielregeln, Fähigkeiten, Balancing und 3D-Welt unverändert; Knopfgrößen vorläufig (L-7).
+- GitHub-CI zu diesem Stand steht noch aus (Kontingent bis 1.12.); lokal geprüft (Tests, Referenz, Export aller Profile).
+- Alle anderen Ordner sind unverändert.
